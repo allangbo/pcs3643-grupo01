@@ -6,7 +6,7 @@ from .models import User
 class UserForm(ModelForm):
     class Meta:
         model = User
-        fields = ['name', 'cpf']
+        fields = ['name', 'cpf', 'email', 'user_type', 'password']
 
 def user_list(request, template_name='users/user_list.html'):
     user = User.objects.all()
