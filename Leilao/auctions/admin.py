@@ -1,4 +1,4 @@
 from django.contrib import admin
-from users.models import User
+from auctions.models import Auction
 
-admin.site.register(User)
+admin.site.register(Auction)

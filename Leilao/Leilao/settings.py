@@ -41,6 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'theme',
     'users',
+    'batches',
+    'products',
+    'bids',
+    'auctions'
 ]
 
 MIDDLEWARE = [

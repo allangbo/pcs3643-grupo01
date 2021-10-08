@@ -1,17 +1,20 @@
 from django.db import models
 from django.urls import reverse
+from batches.models import Batch
+
+from users.models import User
 
 
-class User(models.Model):
-    name = models.CharField(max_length=200)
-    cpf = models.CharField(max_length=11)
-    email = models.CharField(max_length=200)
-    user_type = models.IntegerField()
-    password = models.CharField(max_length=15)
-    
+class Auction(models.Model):
+    start_date = models.DateField()
+    end_date = models.DateField()
+    batch_id = models.ForeignKey(Batch, on_delete=models.CASCADE, null=True)
+    profit = models.DecimalField(decimal_places=2, max_digits=15,)
+    auctioneer_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="Auctioneer")
+    winner_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="Winner")
 
     def __str__(self):
-        return self.name
+        return self.batch_id
 
     def get_absolute_url(self):
-        return reverse('users:user_edit', kwargs={'pk': self.pk})
+        return reverse('auction:auction_edit', kwargs={'pk': self.pk})
