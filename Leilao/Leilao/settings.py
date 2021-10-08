@@ -86,7 +86,7 @@ WSGI_APPLICATION = 'Leilao.wsgi.application'
 
 DATABASES = { 
     'default': {
-        'ENGINE': 'django.db.backends.mysql', 'NAME': 'local',
+        'ENGINE': 'django.db.backends.mysql', 'NAME': 'leilaoDB',
         'USER': 'root',
         'PASSWORD': 'R2D2&C3Po',
         'HOST': 'localhost', 'PORT': '3306',
