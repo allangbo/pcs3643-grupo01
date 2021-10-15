@@ -21,6 +21,10 @@ import theme.views
 urlpatterns = [
     path('', theme.views.home),
     path('users/', include('users.urls')),
+    path('batches/', include('batches.urls')),
+    path('bids/', include('bids.urls')),
+    path('auctions/', include('auctions.urls')),
+    path('products/', include('products.urls')),
 
     # Enable built-in authentication views
     path('accounts/', include('django.contrib.auth.urls')),    

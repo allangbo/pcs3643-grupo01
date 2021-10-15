@@ -6,9 +6,15 @@ from .models import Auction
 class AuctionForm(ModelForm):
     class Meta:
         model = Auction
-        fields = ['name', 'cpf']
+        fields = ['start_date', 'end_date', 'batch_id', 'profit', 'auctioneer_id', 'winner_id']
 
 def auction_list(request, template_name='auctions/auction_list.html'):
+    auction = Auction.objects.all()
+    data = {}
+    data['object_list'] = auction
+    return render(request, template_name, data)
+
+def logged_auction_list(request, template_name='auctions/logged_auction_list.html'):
     auction = Auction.objects.all()
     data = {}
     data['object_list'] = auction

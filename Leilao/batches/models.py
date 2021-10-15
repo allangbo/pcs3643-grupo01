@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 
+
 from users.models import User
 
 class Batch(models.Model):

@@ -1,12 +1,13 @@
 from django.urls import path
 
-from users import views
+from auctions import views
 
-app_name = 'users'
+app_name = 'auctions'
 
 urlpatterns = [
-  path('', views.user_list, name='user_list'),
-  path('new/', views.user_create, name='user_new'),
-  path('edit/<int:pk>/', views.user_update, name='user_edit'),
-  path('delete/<int:pk>/', views.user_delete, name='user_delete'),
+  path('', views.auction_list, name='auction_list'),
+  path('logged', views.logged_auction_list, name='logged_auction_list'),
+  path('new/', views.auction_create, name='auction_new'),
+  path('edit/<int:pk>/', views.auction_update, name='auction_edit'),
+  path('delete/<int:pk>/', views.auction_delete, name='auction_delete'),
 ]

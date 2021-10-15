@@ -1,37 +1,37 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import ModelForm
 
-from .models import Auction
+from .models import Batch
 
-class AuctionForm(ModelForm):
+class BatchForm(ModelForm):
     class Meta:
-        model = Auction
-        fields = ['name', 'cpf']
+        model = Batch
+        fields = ['reserve_value','value','fee','register_fee','payed','sequential_number','min_value','min_bid_increase_value','seller_id']
 
-def auction_list(request, template_name='auctions/auction_list.html'):
-    auction = Auction.objects.all()
+def batch_list(request, template_name='batches/batch_list.html'):
+    batch = Batch.objects.all()
     data = {}
-    data['object_list'] = auction
+    data['object_list'] = batch
     return render(request, template_name, data)
 
-def auction_create(request, template_name='auctions/auction_form.html'):
-    form = AuctionForm(request.POST or None)
+def batch_create(request, template_name='batches/batch_form.html'):
+    form = BatchForm(request.POST or None)
     if form.is_valid():
         form.save()
-        return redirect('auctions:auction_list')
+        return redirect('batches:batch_list')
     return render(request, template_name, {'form':form})
 
-def auction_update(request, pk, template_name='auctions/auction_form.html'):
-    auction= get_object_or_404(Auction, pk=pk)
-    form = AuctionForm(request.POST or None, instance=auction)
+def batch_update(request, pk, template_name='batches/batch_form.html'):
+    batch= get_object_or_404(Batch, pk=pk)
+    form = BatchForm(request.POST or None, instance=batch)
     if form.is_valid():
         form.save()
-        return redirect('auctions:auction_list')
+        return redirect('batches:batch_list')
     return render(request, template_name, {'form':form})
 
-def auction_delete(request, pk, template_name='auctions/auction_confirm_delete.html'):
-    auction= get_object_or_404(Auction, pk=pk)    
+def batch_delete(request, pk, template_name='batches/batch_confirm_delete.html'):
+    batch= get_object_or_404(Batch, pk=pk)    
     if request.method=='POST':
-        auction.delete()
-        return redirect('auctions:auction_list')
-    return render(request, template_name, {'object':auction})
+        batch.delete()
+        return redirect('batches:batch_list')
+    return render(request, template_name, {'object':batch})

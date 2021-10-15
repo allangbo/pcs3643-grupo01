@@ -1,12 +1,12 @@
 from django.urls import path
 
-from users import views
+from batches import views
 
-app_name = 'users'
+app_name = 'batches'
 
 urlpatterns = [
-  path('', views.user_list, name='user_list'),
-  path('new/', views.user_create, name='user_new'),
-  path('edit/<int:pk>/', views.user_update, name='user_edit'),
-  path('delete/<int:pk>/', views.user_delete, name='user_delete'),
+  path('', views.batch_list, name='batch_list'),
+  path('new/', views.batch_create, name='batch_new'),
+  path('edit/<int:pk>/', views.batch_update, name='batch_edit'),
+  path('delete/<int:pk>/', views.batch_delete, name='batch_delete'),
 ]
