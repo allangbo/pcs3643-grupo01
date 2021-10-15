@@ -1,37 +1,37 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import ModelForm
 
-from .models import Auction
+from .models import Product
 
-class AuctionForm(ModelForm):
+class ProductForm(ModelForm):
     class Meta:
-        model = Auction
-        fields = ['name', 'cpf']
+        model = Product
+        fields = ['name', 'description', 'picture']
 
-def auction_list(request, template_name='auctions/auction_list.html'):
-    auction = Auction.objects.all()
+def product_list(request, template_name='products/product_list.html'):
+    product = Product.objects.all()
     data = {}
-    data['object_list'] = auction
+    data['object_list'] = product
     return render(request, template_name, data)
 
-def auction_create(request, template_name='auctions/auction_form.html'):
-    form = AuctionForm(request.POST or None)
+def product_create(request, template_name='products/product_form.html'):
+    form = ProductForm(request.POST or None)
     if form.is_valid():
         form.save()
-        return redirect('auctions:auction_list')
+        return redirect('products:product_list')
     return render(request, template_name, {'form':form})
 
-def auction_update(request, pk, template_name='auctions/auction_form.html'):
-    auction= get_object_or_404(Auction, pk=pk)
-    form = AuctionForm(request.POST or None, instance=auction)
+def product_update(request, pk, template_name='products/product_form.html'):
+    product= get_object_or_404(Product, pk=pk)
+    form = ProductForm(request.POST or None, instance=product)
     if form.is_valid():
         form.save()
-        return redirect('auctions:auction_list')
+        return redirect('products:product_list')
     return render(request, template_name, {'form':form})
 
-def auction_delete(request, pk, template_name='auctions/auction_confirm_delete.html'):
-    auction= get_object_or_404(Auction, pk=pk)    
+def product_delete(request, pk, template_name='products/product_confirm_delete.html'):
+    product= get_object_or_404(Product, pk=pk)    
     if request.method=='POST':
-        auction.delete()
-        return redirect('auctions:auction_list')
-    return render(request, template_name, {'object':auction})
+        product.delete()
+        return redirect('products:product_list')
+    return render(request, template_name, {'object':product})

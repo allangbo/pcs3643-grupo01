@@ -6,7 +6,7 @@
 
 <ul>
     {% for batch in object_list %}
-    <li>Nome: {{ batch.name }}, CPF: ({{ batch.cpf }})
+    <li>Valor: {{ batch.value }}, Acréscimo mínimo: {{ batch.min_bid_increase_value }}
     <a href="{% url 'batches:batch_edit' batch.id %}">edit</a>
     <a href="{% url 'batches:batch_delete' batch.id %}">delete</a>
     </li>

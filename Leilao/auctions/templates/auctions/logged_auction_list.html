@@ -2,19 +2,21 @@
 
 {% block content %}
 
-<h2><a href="{% url 'auctions:auction_list' %}">Leilões</a></h2>
+<h2><a href="{% url 'auctions:logged_auction_list' %}">Leilões</a></h2>
 
 <ul>
     {% for auction in object_list %}
     <li>Data de início: {{ action.start_date }}, Data de fim: {{ action.finish_date }}, Lote: {{ auction.batch_id }}, Último lance: R$10
-    <a href="{% url 'auctions:auction_edit' auction.id %}">edit</a>
+    <a href="{% url 'bids:bid_new' %}">Dar lance</a>
     <a href="{% url 'auctions:auction_delete' auction.id %}">delete</a>
 
-    <br><br><br><a></a>
+    <br><br><br><a href=""></a>
     </li>
     {% endfor %}
 </ul>
 
-<a href="{% url 'auctions:auction_new' %}">New</a>
+<a href="{% url 'auctions:auction_new' %}">Leiloar novo lote</a><br>
+<a href="{% url 'batches:batch_new' %}">Cadastrar lote</a><br>
+<a>Gerar relatório</a>
 
 {% endblock %}

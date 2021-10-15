@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h2><a href="{% url 'users:user_list' %}">Users</a>: Delete?</h2>
+<h2><a href="{% url 'auctions:auction_list' %}">Leilão</a>: Delete?</h2>
 
 <form method="post">{% csrf_token %}
     Are you sure you want to delete "{{ object }}" ?<br/>

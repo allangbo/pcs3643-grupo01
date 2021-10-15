@@ -1,37 +1,37 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import ModelForm
 
-from .models import Auction
+from .models import Bid
 
-class AuctionForm(ModelForm):
+class BidForm(ModelForm):
     class Meta:
-        model = Auction
-        fields = ['name', 'cpf']
+        model = Bid
+        fields = ['value', 'auction_id']
 
-def auction_list(request, template_name='auctions/auction_list.html'):
-    auction = Auction.objects.all()
+def bid_list(request, template_name='bids/bid_list.html'):
+    bid = Bid.objects.all()
     data = {}
-    data['object_list'] = auction
+    data['object_list'] = bid
     return render(request, template_name, data)
 
-def auction_create(request, template_name='auctions/auction_form.html'):
-    form = AuctionForm(request.POST or None)
+def bid_create(request, template_name='bids/bid_form.html'):
+    form = BidForm(request.POST or None)
     if form.is_valid():
         form.save()
-        return redirect('auctions:auction_list')
+        return redirect('bids:bid_list')
     return render(request, template_name, {'form':form})
 
-def auction_update(request, pk, template_name='auctions/auction_form.html'):
-    auction= get_object_or_404(Auction, pk=pk)
-    form = AuctionForm(request.POST or None, instance=auction)
+def bid_update(request, pk, template_name='bids/bid_form.html'):
+    bid= get_object_or_404(Bid, pk=pk)
+    form = BidForm(request.POST or None, instance=bid)
     if form.is_valid():
         form.save()
-        return redirect('auctions:auction_list')
+        return redirect('bids:bid_list')
     return render(request, template_name, {'form':form})
 
-def auction_delete(request, pk, template_name='auctions/auction_confirm_delete.html'):
-    auction= get_object_or_404(Auction, pk=pk)    
+def bid_delete(request, pk, template_name='bids/bid_confirm_delete.html'):
+    bid= get_object_or_404(Bid, pk=pk)    
     if request.method=='POST':
-        auction.delete()
-        return redirect('auctions:auction_list')
-    return render(request, template_name, {'object':auction})
+        bid.delete()
+        return redirect('bids:bid_list')
+    return render(request, template_name, {'object':bid})

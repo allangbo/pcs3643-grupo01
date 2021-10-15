@@ -9,4 +9,5 @@ urlpatterns = [
   path('new/', views.batch_create, name='batch_new'),
   path('edit/<int:pk>/', views.batch_update, name='batch_edit'),
   path('delete/<int:pk>/', views.batch_delete, name='batch_delete'),
+
 ]

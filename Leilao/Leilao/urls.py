@@ -25,6 +25,7 @@ urlpatterns = [
     path('bids/', include('bids.urls')),
     path('auctions/', include('auctions.urls')),
     path('products/', include('products.urls')),
+    path('registration/', include('registration.urls')),
 
     # Enable built-in authentication views
     path('accounts/', include('django.contrib.auth.urls')),    

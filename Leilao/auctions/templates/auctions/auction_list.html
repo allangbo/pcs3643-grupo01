@@ -6,7 +6,7 @@
 
 <ul>
     {% for auction in object_list %}
-    <li>Nome: {{ auction.name }}, CPF: ({{ auction.cpf }})
+    <li>Data de início: {{ action.start_date }}, Data de fim: {{ action.finish_date }}, Lote: {{ auction.batch_id }}, Último lance: R$10
     <a href="{% url 'auctions:auction_edit' auction.id %}">edit</a>
     <a href="{% url 'auctions:auction_delete' auction.id %}">delete</a>
     </li>

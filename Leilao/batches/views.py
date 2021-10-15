@@ -35,3 +35,4 @@ def batch_delete(request, pk, template_name='batches/batch_confirm_delete.html')
         batch.delete()
         return redirect('batches:batch_list')
     return render(request, template_name, {'object':batch})
+

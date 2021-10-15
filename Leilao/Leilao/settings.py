@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'batches',
     'products',
     'bids',
-    'auctions'
+    'auctions',
+    'registration',
 ]
 
 MIDDLEWARE = [

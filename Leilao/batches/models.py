@@ -13,11 +13,10 @@ class Batch(models.Model):
     sequential_number = models.CharField(max_length=50)
     min_value = models.DecimalField(decimal_places=2, max_digits=15,)
     min_bid_increase_value = models.DecimalField(decimal_places=2, max_digits=15,)
-    seller_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    
+    seller_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True)    
 
     def __str__(self):
-        return self.batch_id
+        return self.sequential_number
 
     def get_absolute_url(self):
-        return reverse('bid:bid_edit', kwargs={'pk': self.pk})
+        return reverse('bids:bid_edit', kwargs={'pk': self.pk})
