@@ -1,5 +1,15 @@
 {% extends "base.html" %}
 
+{# Load the tag library #}
+{% load bootstrap4 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+
 {% block content %}
 
 {% if form.errors %}
@@ -29,8 +39,11 @@
         </tr>
         </table>
 
-        <input type="submit" value="login">
-        <input type="hidden" name="next" value="{{ next }}">
+        {% buttons %}
+			<button type="submit" class="btn btn-primary">
+			  Submit
+			</button>
+		{% endbuttons %}
         </form>
 
 {# Presume que você configurou a vista password_reset em seu URLconf #}
