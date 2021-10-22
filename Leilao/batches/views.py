@@ -6,7 +6,7 @@ from .models import Batch
 class BatchForm(ModelForm):
     class Meta:
         model = Batch
-        fields = ['reserve_value','value','fee','register_fee','payed','sequential_number','min_value','min_bid_increase_value','seller_id']
+        fields = ['reserve_value','value','fee','register_fee','paid','sequential_number','min_value','min_bid_increase_value','seller_id']
 
 def batch_list(request, template_name='batches/batch_list.html'):
     batch = Batch.objects.all()

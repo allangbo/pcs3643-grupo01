@@ -6,9 +6,9 @@ from auctions.models import Auction
 
 
 class Bid(models.Model):
-    value = models.DecimalField(decimal_places=2, max_digits=15,)
-    auction_id = models.ForeignKey(Auction, on_delete=models.CASCADE, null=True)
-    buyer_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    value = models.DecimalField("Valor", decimal_places=2, max_digits=15, default=0.01)
+    auction_id = models.ForeignKey(Auction, on_delete=models.CASCADE, related_name='auction')
+    buyer_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.buyer_id

@@ -5,9 +5,10 @@ from batches.models import Batch
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=50)
-    description = models.CharField(max_length=50)
-    picture = models.CharField(max_length=50)
+    name = models.CharField("Nome", max_length=50, default="")
+    description = models.CharField("Descrição", max_length=500, null=True)
+    picture = models.CharField("Foto", max_length=100, null=True)
+    batch = models.ForeignKey(Batch, on_delete=models.CASCADE, default='1')
 
     def __str__(self):
         return self.name
