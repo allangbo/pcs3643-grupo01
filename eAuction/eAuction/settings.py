@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'auctions.apps.AuctionsConfig',
     'batches.apps.BatchesConfig',
+    'reports.apps.ReportsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -89,7 +90,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', 'NAME': 'dbleilao',
         'USER': 'root',
-        'PASSWORD': 'admin',
+        'PASSWORD': 'R2D2&C3Po',
         'HOST': 'localhost', 'PORT': '3306',
     }
 }
