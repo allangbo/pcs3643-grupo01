@@ -22,7 +22,7 @@
                 <a href="{% url 'auth:auctioneer_list' %}">Leiloeiros</a>
                 <a href="{% url 'auth:seller_buyer_list' %}">Vendedores/Compradores</a>
                 <a href="{% url 'auth:manager_list' %}">Gerentes</a>
-                <a href="{% url 'products:product_list' %}">Relatórios</a>                
+                <a href="{% url 'reports:create_report' %}">Relatórios</a>                
             </div>
         {% endif %}
         {% if request.user|has_group:"seller-buyer" %} 
