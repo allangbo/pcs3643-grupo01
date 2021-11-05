@@ -23,7 +23,7 @@ class Auction(models.Model):
     buy_fee = models.DecimalField("Taxa de Compra", decimal_places=2, max_digits=15, null=True)
     register_fee_paid = models.BooleanField("Taxa de Registro Paga", default=False)
     buy_fee_paid = models.BooleanField("Taxa da Compra Paga", default=False)
-    
+    profit = models.DecimalField("Lucro", decimal_places=2, max_digits=15, null=True)
 
     def __str__(self):
         return str(self.id)
@@ -41,4 +41,4 @@ class Bid(models.Model):
         return str(self.id)
 
     def get_absolute_url(self):
-        return reverse("auctions:auction_list")
+        return reverse("auctions:bid_list")

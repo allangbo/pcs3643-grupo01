@@ -16,4 +16,4 @@ class Batch(models.Model):
         return self.description
 
     def get_absolute_url(self):
-        return reverse("products:product_list")
+        return reverse("batches:batch_list")

@@ -1,0 +1,220 @@
+{
+  "id": "6531c5da-7078-4c83-9e79-ee6e49426422",
+  "version": "2.0",
+  "name": "eLeilão",
+  "url": "http://127.0.0.1:8000",
+  "tests": [{
+    "id": "dd2b79b5-1bd8-49a0-8835-e8b466c03133",
+    "name": "Criar-lote",
+    "commands": [{
+      "id": "986a028a-241d-4d01-b921-15a21f1fb5a1",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6a5ccda1-4391-4c8a-a108-08eb6208db64",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1536x824",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "1d42eda3-d75b-436f-b887-fc95dc76d0bc",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Produtos",
+      "targets": [
+        ["linkText=Produtos", "linkText"],
+        ["css=a:nth-child(2)", "css:finder"],
+        ["xpath=//a[contains(text(),'Produtos')]", "xpath:link"],
+        ["xpath=//div[@id='menu']/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/products/')]", "xpath:href"],
+        ["xpath=//a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Produtos')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "9ca5ae49-0661-4559-a552-41a768550a87",
+      "comment": "",
+      "command": "click",
+      "target": "css=button",
+      "targets": [
+        ["css=button", "css:finder"],
+        ["xpath=//button[@onclick=\"window.location.href='/products/new/'\"]", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Adicionar')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "4ea979d0-f843-47e3-bfeb-85b4bb58d8d5",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_name",
+      "targets": [
+        ["id=id_name", "id"],
+        ["name=name", "name"],
+        ["css=#id_name", "css:finder"],
+        ["xpath=//input[@id='id_name']", "xpath:attributes"],
+        ["xpath=//p/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c0fb729f-f3d3-40a7-94f3-0072e74e6859",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_name",
+      "targets": [
+        ["id=id_name", "id"],
+        ["name=name", "name"],
+        ["css=#id_name", "css:finder"],
+        ["xpath=//input[@id='id_name']", "xpath:attributes"],
+        ["xpath=//p/input", "xpath:position"]
+      ],
+      "value": "Canecas"
+    }, {
+      "id": "abc61203-efec-448f-b9d8-b8962898e0cc",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_description",
+      "targets": [
+        ["id=id_description", "id"],
+        ["name=description", "name"],
+        ["css=#id_description", "css:finder"],
+        ["xpath=//input[@id='id_description']", "xpath:attributes"],
+        ["xpath=//p[2]/input", "xpath:position"]
+      ],
+      "value": "Canecas"
+    }, {
+      "id": "d4a9872a-37af-4620-bcf2-9efac60688c2",
+      "comment": "",
+      "command": "sendKeys",
+      "target": "id=id_description",
+      "targets": [
+        ["id=id_description", "id"],
+        ["name=description", "name"],
+        ["css=#id_description", "css:finder"],
+        ["xpath=//input[@id='id_description']", "xpath:attributes"],
+        ["xpath=//p[2]/input", "xpath:position"]
+      ],
+      "value": "${KEY_ENTER}"
+    }, {
+      "id": "84f2eef6-c3fd-4932-bb2e-bcb36222acd3",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Lotes",
+      "targets": [
+        ["linkText=Lotes", "linkText"],
+        ["css=a:nth-child(3)", "css:finder"],
+        ["xpath=//a[contains(text(),'Lotes')]", "xpath:link"],
+        ["xpath=//div[@id='menu']/a[3]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/batches/')]", "xpath:href"],
+        ["xpath=//a[3]", "xpath:position"],
+        ["xpath=//a[contains(.,'Lotes')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "cd0de838-8fc5-477a-94df-139c2f7018ab",
+      "comment": "",
+      "command": "click",
+      "target": "css=button",
+      "targets": [
+        ["css=button", "css:finder"],
+        ["xpath=//button[@onclick=\"window.location.href='/batches/new/'\"]", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Adicionar')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "1f0294a1-ff79-40ff-873a-36f6223cd09a",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_description",
+      "targets": [
+        ["id=id_description", "id"],
+        ["name=description", "name"],
+        ["css=#id_description", "css:finder"],
+        ["xpath=//input[@id='id_description']", "xpath:attributes"],
+        ["xpath=//p/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c10b7e11-d2d5-411b-a304-d79bc73e9489",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_description",
+      "targets": [
+        ["id=id_description", "id"],
+        ["name=description", "name"],
+        ["css=#id_description", "css:finder"],
+        ["xpath=//input[@id='id_description']", "xpath:attributes"],
+        ["xpath=//p/input", "xpath:position"]
+      ],
+      "value": "Lote de canecas"
+    }, {
+      "id": "9ccfbad8-ce2c-4d32-968f-9f529a1f799b",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_value",
+      "targets": [
+        ["id=id_value", "id"],
+        ["name=value", "name"],
+        ["css=#id_value", "css:finder"],
+        ["xpath=//input[@id='id_value']", "xpath:attributes"],
+        ["xpath=//p[2]/input", "xpath:position"]
+      ],
+      "value": "100"
+    }, {
+      "id": "9cbe34b0-76c0-4c49-8943-8e111abd723c",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_reserve_value",
+      "targets": [
+        ["id=id_reserve_value", "id"],
+        ["name=reserve_value", "name"],
+        ["css=#id_reserve_value", "css:finder"],
+        ["xpath=//input[@id='id_reserve_value']", "xpath:attributes"],
+        ["xpath=//p[3]/input", "xpath:position"]
+      ],
+      "value": "50"
+    }, {
+      "id": "3775ce00-55c8-4e40-a92f-5cff73e079ed",
+      "comment": "",
+      "command": "addSelection",
+      "target": "id=id_products",
+      "targets": [
+        ["id=id_products", "id"],
+        ["name=products", "name"],
+        ["css=#id_products", "css:finder"],
+        ["xpath=//select[@id='id_products']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"],
+        ["xpath=//select[contains(.,'Canecas')]", "xpath:innerText"]
+      ],
+      "value": "label=Canecas"
+    }, {
+      "id": "751b379d-f861-4f05-8ba7-29312b634618",
+      "comment": "",
+      "command": "click",
+      "target": "css=input:nth-child(6)",
+      "targets": [
+        ["css=input:nth-child(6)", "css:finder"],
+        ["xpath=//input[@value='Salvar']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "7a7133f0-3dce-412b-b77b-78d9e7651f20",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["http://127.0.0.1:8000/"],
+  "plugins": []
+}

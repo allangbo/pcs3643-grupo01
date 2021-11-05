@@ -1,0 +1,126 @@
+{
+  "id": "a9beede3-d6a6-4e13-9c54-a57ebb6f176f",
+  "version": "2.0",
+  "name": "gerar-relatorio",
+  "url": "http://127.0.0.1:8000",
+  "tests": [{
+    "id": "d8be2c7c-74dc-4aa8-a16a-6679ff9da617",
+    "name": "gerar-relatorio",
+    "commands": [{
+      "id": "daeef9dc-61fa-4d2e-9618-15b0c5591eef",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "5bb4dab2-20b0-4217-81f7-de1196395c35",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1536x824",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ddf69890-57ec-46e7-969e-f24b36379495",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Relatórios",
+      "targets": [
+        ["linkText=Relatórios", "linkText"],
+        ["css=a:nth-child(9)", "css:finder"],
+        ["xpath=//a[contains(text(),'Relatórios')]", "xpath:link"],
+        ["xpath=//div[@id='menu']/a[9]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/reports/')]", "xpath:href"],
+        ["xpath=//a[9]", "xpath:position"],
+        ["xpath=//a[contains(.,'Relatórios')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "8abf30fc-aded-4fed-bc9a-8c50b3dbfda3",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_start_date",
+      "targets": [
+        ["id=id_start_date", "id"],
+        ["name=start_date", "name"],
+        ["css=#id_start_date", "css:finder"],
+        ["xpath=//input[@id='id_start_date']", "xpath:attributes"],
+        ["xpath=//p[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "21ef3dfd-ff93-4947-98a6-a73be21443d7",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_start_date",
+      "targets": [
+        ["id=id_start_date", "id"],
+        ["name=start_date", "name"],
+        ["css=#id_start_date", "css:finder"],
+        ["xpath=//input[@id='id_start_date']", "xpath:attributes"],
+        ["xpath=//p[2]/input", "xpath:position"]
+      ],
+      "value": "05/11/2021"
+    }, {
+      "id": "63e65d7c-f1d2-4216-8357-9cb7e8d6f220",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_end_date",
+      "targets": [
+        ["id=id_end_date", "id"],
+        ["name=end_date", "name"],
+        ["css=#id_end_date", "css:finder"],
+        ["xpath=//input[@id='id_end_date']", "xpath:attributes"],
+        ["xpath=//p[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7d186a65-b27e-46ab-a408-c4635f3a34e7",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_end_date",
+      "targets": [
+        ["id=id_end_date", "id"],
+        ["name=end_date", "name"],
+        ["css=#id_end_date", "css:finder"],
+        ["xpath=//input[@id='id_end_date']", "xpath:attributes"],
+        ["xpath=//p[3]/input", "xpath:position"]
+      ],
+      "value": "10/11/2021"
+    }, {
+      "id": "e73afb69-ecc6-4d4e-bd26-f95c52764403",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_type",
+      "targets": [
+        ["id=id_type", "id"],
+        ["name=type", "name"],
+        ["css=#id_type", "css:finder"],
+        ["xpath=//input[@id='id_type']", "xpath:attributes"],
+        ["xpath=//p/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d29809e2-9553-47de-bdeb-6809341bffcd",
+      "comment": "",
+      "command": "click",
+      "target": "css=input:nth-child(5)",
+      "targets": [
+        ["css=input:nth-child(5)", "css:finder"],
+        ["xpath=//input[@value='Gerar relatório']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "0fffc793-3193-4c9c-9b64-728256ed3051",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["d8be2c7c-74dc-4aa8-a16a-6679ff9da617"]
+  }],
+  "urls": ["http://127.0.0.1:8000/"],
+  "plugins": []
+}
