@@ -1,0 +1,51 @@
+{% load static %}
+{% load auth_extras %}
+<html>
+<head>
+    <title>{% block title %} {% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'theme/css/style.css' %}">
+    <script src="{% static 'theme/js/script.js' %}"></script>
+</head>
+<body>
+    {% if user.is_authenticated %}
+    <div id="user">
+        Olá {{ user }}!, <a href="{% url 'auth:logout' %}">Logout</a>
+    </div>
+    <br/>
+        {% if request.user|has_group:"admin" or request.user|has_group:"auctioneer" or request.user.is_superuser %}    
+            <div id="menu">
+                <a href="{% url 'theme:home' %}">Home</a>
+                <a href="{% url 'products:product_list' %}">Produtos</a>
+                <a href="{% url 'batches:batch_list' %}">Lotes</a>
+                <a href="{% url 'auctions:auction_list' %}">Leilões</a>
+                <a href="{% url 'auctions:bid_list' %}">Lances</a>
+                <a href="{% url 'auth:auctioneer_list' %}">Leiloeiros</a>
+                <a href="{% url 'auth:seller_buyer_list' %}">Vendedores/Compradores</a>
+                <a href="{% url 'auth:manager_list' %}">Gerentes</a>
+                <a href="{% url 'products:product_list' %}">Relatórios</a>                
+            </div>
+        {% endif %}
+        {% if request.user|has_group:"seller-buyer" %} 
+            <p>{{ request.user.groups.all }}</p>   
+            <div id="menu">
+                <a href="{% url 'theme:home' %}">Leilões</a>
+                <a href="{% url 'products:product_list' %}">Meus Produtos</a>
+                <a href="{% url 'batches:batch_list' %}">Meus Lotes</a>
+                <a href="{% url 'auctions:bid_list' %}">Meus Lances</a>
+            </div>
+        {% endif %}
+    {% else %}
+        <div id="user">
+            <a href="{% url 'auth:login' %}">Login</a>
+        </div>
+    {% endif %}
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+    
+    <div id="footer">
+    </div>
+</body>
+
+</html>

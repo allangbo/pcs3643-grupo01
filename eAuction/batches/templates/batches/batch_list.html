@@ -1,0 +1,71 @@
+{% extends 'theme/base.html' %}
+{% load auth_extras %}
+
+{% block title %} Lotes {% endblock %}
+{% block content %}
+
+<h2 class="center-text">Lotes</h2>
+
+{% if request.user|has_group:"seller-buyer" or  request.user|has_group:"admin" or request.user.is_superuser%}
+<div class="add-button">
+    <button onclick="window.location.href='{%url 'batches:batch_new' %}'">Adicionar</button>
+</div>
+{% endif %}
+
+<table>
+    <thead>
+        <tr>  
+            <th>ID</th>          
+            <th>Descrição</th>
+            <th>Valor</th>
+            <th>Valor de Reserva</th>
+            <th>Vendedor</th>
+            <th>Produtos</th>
+            {% if request.user|has_group:"seller-buyer" or  request.user|has_group:"admin" or request.user.is_superuser%}
+            <th>Ações</th>
+            {% endif %}
+        </tr>
+    </thead>    
+    <tbody>
+        {% if batch_list %}
+            {% for batch in batch_list %}
+                <tr>
+                    <td>
+                        {{ batch.id }}
+                    </td>
+                    <td>
+                        {{ batch.description }}
+                    </td>
+                    <td>
+                        {{ batch.value }}
+                    </td>
+                    <td>
+                        {{ batch.reserve_value }}
+                    </td>
+                    <td>
+                        {{ batch.seller }}
+                    </td>
+                    <td>
+                        {% for p in batch.products.all %}
+                            {{ p.id }} - {{ p.name }} - {{ p.description }} <br/>
+                        {% empty %}
+                            Nenhum produto adicionado ao lote.
+                        {% endfor %}
+                    </td>
+                    {% if request.user|has_group:"seller-buyer" or  request.user|has_group:"admin" or request.user.is_superuser%}
+                        <td>                    
+                            <button onclick="confirmDelete('{%url 'batches:batch_delete' batch.id %}')">Deletar</button>
+                            <button onclick="window.location.href='{%url 'batches:batch_edit' batch.id %}'">Editar</button>                        
+                        </td> 
+                    {% endif %}     
+                </tr>    
+            {% endfor %}  
+        {% else %}
+            <tr>
+                <td class="text-center" colspan='100%'><p>Nenhum lote disponível.</p></td> 
+            </tr>
+        {% endif %}
+    </tbody>
+    
+</table>
+{% endblock content %}
