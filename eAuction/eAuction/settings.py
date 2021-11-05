@@ -31,6 +31,11 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'theme.apps.ThemeConfig',
+    'products.apps.ProductsConfig',
+    'users.apps.UsersConfig',
+    'auctions.apps.AuctionsConfig',
+    'batches.apps.BatchesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -73,12 +78,22 @@ WSGI_APPLICATION = 'eAuction.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
+""" DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+} """
+
+DATABASES = { 
+    'default': {
+        'ENGINE': 'django.db.backends.mysql', 'NAME': 'dbleilao',
+        'USER': 'root',
+        'PASSWORD': 'admin',
+        'HOST': 'localhost', 'PORT': '3306',
+    }
 }
+
 
 
 # Password validation
@@ -103,9 +118,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-br'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
 
@@ -123,3 +138,9 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+#LOGIN CONFIG
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/auth/login'
+LOGOUT_REDIRECT_URL = '/auth/login'

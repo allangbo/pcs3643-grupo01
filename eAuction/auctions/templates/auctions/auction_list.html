@@ -1,0 +1,83 @@
+{% extends 'theme/base.html' %}
+{% load auth_extras %}
+
+{% block title %} Leilões {% endblock %}
+{% block content %}
+
+<h2 class="center-text">Leilões</h2>
+
+
+<div class="add-button">
+    <button onclick="window.location.href='{%url 'auctions:auction_new' %}'">Novo Leilão</button>
+</div>
+
+<table>
+    <thead>
+        <tr>            
+            <th>Data Início</th>
+            <th>Data Fim</th>
+            <th>Lote/Produtos</th>
+            <th>Valor Lote</th>
+            <th>Valor Reserva Lote</th>
+            <th>Vendedor</th>
+            <th>Valor Mínimo</th>
+            <th>Taxa Registro</th>
+            <th>Taxa Registro Paga</th>
+            <th>Delta</th>
+            <th>Ações</th>
+        </tr>
+    </thead>    
+    <tbody>
+        {% if auction_list %}
+            {% for auction in auction_list %}
+                <tr>
+                    <td>
+                        {{ auction.start_date }}
+                    </td>
+                    <td>
+                        {{ auction.end_date }}
+                    </td>
+                    <td>
+                        {% for p in auction.batch.products.all %}
+                            {{ p.id }} - {{ p.name }} - {{ p.description }} <br/>
+                        {% empty %}
+                            Nenhum produto adicionado ao lote.
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {{ auction.batch.value }}
+                    </td>
+                    <td>
+                        {{ auction.batch.reserve_value }}
+                    </td>
+                    <td>
+                        {{ auction.batch.seller }}
+                    </td>
+                    <td>
+                        {{ auction.min_value }}
+                    </td>
+                    <td>
+                        {{ auction.register_fee }}
+                    </td>
+                    <td>
+                        {{ auction.register_fee_paid }}
+                    </td>
+                    <td>
+                        {{ auction.min_bid_increase_value }}
+                    </td> 
+                    <td>
+                        <button onclick="confirmDelete('{%url 'auctions:auction_delete' auction.id %}')">Deletar</button>
+                        <button onclick="window.location.href='{%url 'auctions:auction_edit' auction.id %}'">Editar</button>    
+                    </td>   
+                </tr>    
+            {% endfor %}  
+        {% else %}
+            <tr>
+                <td class="center-text" colspan='100%'><p>Nenhum leilão disponível.</p></td> 
+            </tr>
+        {% endif %}
+    </tbody>
+    
+</table>
+
+{% endblock content %}

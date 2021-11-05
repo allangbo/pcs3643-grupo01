@@ -1,0 +1,59 @@
+{% extends 'theme/base.html' %}
+{% load auth_extras %}
+
+{% block title %} Lances {% endblock %}
+{% block content %}
+
+<h2 class="center-text">Lances</h2>
+
+<table>
+    <thead>
+        <tr>  
+            <th>ID</th>    
+            <th>Comprador</th>      
+            <th>Valor</th>
+            <th>Leilão</th>
+            <th>Lote</th>
+            <th>Data/Horário</th>
+            <th>Produtos</th>
+        </tr>
+    </thead>    
+    <tbody>
+        {% if bid_list %}
+            {% for bid in bid_list %}
+                <tr>
+                    <td>
+                        {{ bid.id }}
+                    </td>
+                    <td>
+                        {{ bid.buyer }}
+                    </td>
+                    <td>
+                        {{ bid.value }}
+                    </td>
+                    <td>
+                        {{ bid.auction.id }}
+                    </td>                    
+                    <td>
+                        {{ bid.auction.batch.id }} - {{ bid.auction.batch.description }}
+                    </td>
+                    <td>
+                        {{ bid.datetime}}
+                    </td>
+                    <td>
+                        {% for p in bid.auction.batch.products.all %}
+                            {{ p.id }} - {{ p.name }} - {{ p.description }} <br/>
+                        {% endfor %}
+                    </td> 
+                </tr>    
+            {% endfor %}  
+        {% else %}
+            <tr>
+                <td class="center-text" colspan='100%'><p>Nenhum lance realizado.</p></td> 
+            </tr>
+        {% endif %}
+    </tbody>
+    
+</table>
+
+{% endblock content %}

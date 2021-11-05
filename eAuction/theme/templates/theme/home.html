@@ -1,0 +1,84 @@
+{% extends 'theme/base.html' %}
+{% load auth_extras %}
+
+{% block title %} Home {% endblock %}
+{% block content %}
+
+{% load static %}
+
+<h2 class="center-text">Sistema Leilão</h2>
+
+<table>
+    <thead>
+        <tr>      
+            <th>Lote</th>      
+            <th>Data Início</th>
+            <th>Tempo Restante</th>
+            <th>Lote/Produtos</th>            
+            <th>Vencedor Atual</th>
+            <th>Último Lance</th>
+            {% if user.is_authenticated %}
+                <th>Ações</th>
+            {% endif %} 
+        </tr>
+    </thead>    
+    <tbody>
+        {% if auction_list %}
+            {% for auction in auction_list %}
+            
+                <tr>
+                    <td>
+                        {{ auction.batch.id }}
+                    </td>
+                    <td>
+                        {{ auction.start_date }}
+                    </td>
+                    <td>                
+                        <div id = "countdown_{{ auction.id }}">
+                        </div>     
+                       
+                       
+                    </td>
+                    <td>
+                        {% for p in auction.batch.products.all %}
+                            {{ p.id }} - {{ p.name }} - {{ p.description }} <br/>
+                        {% empty %}
+                            Nenhum produto adicionado ao lote.
+                        {% endfor %}
+                    </td>
+                    <td>
+                       {{ auction.winner|default_if_none:'Sem Lances' }}
+                    </td>
+                    <td>
+                       {{ auction.winner_bid|default_if_none:'Sem Lances' }}
+                    </td>
+                    {% if user.is_authenticated %}
+                        <td>                            
+                            {% if request.user|has_group:"seller-buyer" or request.user.is_superuser %} 
+                            <button id="bid_button" onclick="window.location.href='{%url 'auctions:bid_new' auction.id %}'">Dar Lance</button>
+                            {% endif %}     
+                        </td>  
+                    {% endif %} 
+                </tr>    
+            <script>
+                var bid_countdown = document.getElementById("countdown_" + {{ auction.id }})
+                var bid_button = document.getElementById("bid_button")
+                var expirado = countDown(new Date('{{ auction.end_date.isoformat }}'), bid_countdown, bid_button);
+            </script>
+            {% endfor %}  
+        {% else %}
+            {% if user.is_authenticated %}
+                <tr>
+                    <td class="center-text" colspan='7'><p>Nenhum leilão disponível.</p></td> 
+                </tr>
+            {% else %} 
+                <tr>
+                    <td class="center-text" colspan='6'><p>Nenhum leilão disponível.</p></td> 
+                </tr>
+            {% endif %} 
+        {% endif %}
+    </tbody>
+    
+</table>
+
+{% endblock content %}

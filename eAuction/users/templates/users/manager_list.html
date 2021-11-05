@@ -1,0 +1,57 @@
+{% extends 'theme/base.html' %}
+{% load auth_extras %}
+
+{% block title %} Gerentes {% endblock %}
+{% block content %}
+
+<h2 class="center-text">Gerentes</h2>
+
+{% if request.user|has_group:"admin" or request.user.is_superuser %}
+<div class="add-button">
+    <button onclick="window.location.href='{%url 'auth:manager_new' %}'">Adicionar</button>
+</div>
+{% endif %}
+<table class="table-list">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>            
+            <th>Ativo</th>
+            {% if request.user|has_group:"admin" or request.user.is_superuser %}
+            <th>Ações</th>
+            {% endif %}
+        </tr>
+    </thead>    
+    <tbody>
+        {% if manager_list %}
+            {% for manager in manager_list %}
+                <tr>
+                    <td>
+                        {{ manager.username }}
+                    </td>
+                    <td>
+                        {{ manager.email }}
+                    </td>
+                    <td>
+                        {{ manager.is_active }}
+                    </td>
+                    {% if request.user|has_group:"admin" or request.user.is_superuser %}
+                        <td>                            
+                            <button onclick="confirmDeactivate('{%url 'auth:manager_deactivate' manager.id %}')">Desativar</button>   
+                            <button onclick="confirmActivate('{%url 'auth:manager_activate' manager.id %}')">Ativar</button>                       
+                        </td> 
+                    {% endif %}  
+                </tr>      
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td class="center-text" colspan='100%'><p>Nenhum administrador cadastrado.</p></td> 
+            </tr>
+        {% endif %}
+    </tbody>
+    
+</table>
+{% endblock content %}
+
+
+
