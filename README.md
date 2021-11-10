@@ -4,7 +4,9 @@ Para executar o sistema de leilão:
 
 2) Instalar as dependencias atraves do comando: pip install -r requirements.txt
 
-3) O nome do banco é dbleilao, usuario: root, senha: admin (essas configurações podem ser modificadas em settings.py)
+3) É necessário criar um banco MySQL através do comando (CREATE SCHEMA `db_leilao`) no workbench do MySQL.
+O nome do banco configurado é dbleilao, usuario: root, senha: admin 
+(outros bancos/configurações podem ser utilizadas, fazendo as respectivas alterações em settings.py)
 
 4) Comentar as linhas 6 a 11 do arquivo /eAuctions/urls.py 
 (para funcionar, comentar com # ou remover as linhas salvando-as em outro lugar para inserí-las novamente no passo 7)
