@@ -47,7 +47,7 @@
                     </td>
                     <td>
                         {% for p in batch.products.all %}
-                            {{ p.id }} - {{ p.name }} - {{ p.description }} <br/>
+                            {{ p.name }} - {{ p.description }} <br/>
                         {% empty %}
                             Nenhum produto adicionado ao lote.
                         {% endfor %}

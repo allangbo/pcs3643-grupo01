@@ -10,8 +10,8 @@ from batches.models import Batch
 
 
 class Auction(models.Model):
-    start_date = models.DateField("Data de início")
-    end_date = models.DateField("Data de fim")
+    start_date = models.DateTimeField("Data de início")
+    end_date = models.DateTimeField("Data de fim")
     batch = models.OneToOneField(Batch, on_delete=models.CASCADE)    
     auctioneer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='auctioned_by')
     winner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='won_by', null=True)
@@ -30,6 +30,9 @@ class Auction(models.Model):
 
     def get_absolute_url(self):
         return reverse("auctions:auction_list")
+
+    def get_start_date(self):
+        return self.start_date
 
 class Bid(models.Model):
     value = models.DecimalField("Valor", decimal_places=2, max_digits=15)

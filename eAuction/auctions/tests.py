@@ -16,7 +16,7 @@ class AuctionModelTest(TestCase):
         """Set up non-modified objects used by all test methods.""" 
         User.objects.create(username='username', email='email@com.br', password='senha')
         Batch.objects.create(reserve_value=20.32, value=20.00, seller= User.objects.latest('id'))
-        Auction.objects.create(start_date='2021-10-14', end_date='2021-10-20', min_value=0.02, min_bid_increase_value=0.02, register_fee=0.01, auctioneer = User.objects.latest('id'), batch = Batch.objects.latest('id'))
+        Auction.objects.create(start_date='2021-10-14 15:20:51.388054', end_date='2021-10-20 15:20:51.388054', min_value=0.02, min_bid_increase_value=0.02, register_fee=0.01, auctioneer = User.objects.latest('id'), batch = Batch.objects.latest('id'))
 
     def test_start_date_label(self):
         auction = Auction.objects.latest('id')

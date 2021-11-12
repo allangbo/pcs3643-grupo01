@@ -6,8 +6,8 @@ import io
 
 class Report(models.Model):
     type = models.BooleanField("Relatório de faturamento?", default=False)
-    start_date = models.DateField("Data de início")
-    end_date = models.DateField("Data de fim")
+    start_date = models.DateTimeField("Data de início")
+    end_date = models.DateTimeField("Data de fim")
 
     def __str__(self):
         return str(self.type)
@@ -18,10 +18,10 @@ class Report(models.Model):
 
         if self.type:
             filename = "relatório_de_faturamento.pdf"
-            p.drawString(20, 750, "Relatório de faturamento em relação ao período: " + str(self.start_date) + " a " + str(self.end_date))
+            p.drawString(20, 750, "Relatório de faturamento em relação ao período: " + self.start_date.strftime("%d/%m/%Y, %H:%M:%S") + " a " + self.end_date.strftime("%d/%m/%Y, %H:%M:%S"))
         else:
             filename = "relatório_de_desempenho.pdf"
-            p.drawString(20, 750, "Relatório de desempenho em relação ao período: " + str(self.start_date) + " a " + str(self.end_date))
+            p.drawString(20, 750, "Relatório de desempenho em relação ao período: " + self.start_date.strftime("%d/%m/%Y, %H:%M:%S") + " a " + self.end_date.strftime("%d/%m/%Y, %H:%M:%S"))
 
         p.showPage()
         p.save()
