@@ -1,0 +1,7 @@
+{% extends 'adminlte/lib/_main_header.html' %}
+{% load auth_extras %}
+
+
+{% block nav_bar_center %} {% endblock %}
+
+{% block nav_custom_menu %} <a href="{% url 'auth:logout' %}">Logout</a> {% endblock %}

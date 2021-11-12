@@ -1,0 +1,76 @@
+{% extends 'adminlte/lib/_main_sidebar.html' %}
+{% load auth_extras %}
+
+{% block logo %} <h1 style="color: white; text-align: center; padding: 5px;"> eLeilão </h1> {% endblock %}
+
+{% block nav_links %}
+    {% if request.user|has_group:"admin" or request.user|has_group:"auctioneer" or request.user.is_superuser %}    
+        <li>
+            <a href="{% url 'theme:home' %}">
+                </i> <span>Home</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'products:product_list' %}">
+                <span>Produtos</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'batches:batch_list' %}">
+                <span>Lotes</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'auctions:auction_list' %}">
+                <span>Leilões</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'auctions:bid_list' %}">
+                <span>Lances</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'auth:auctioneer_list' %}">
+                <span>Leiloeiros</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'auth:seller_buyer_list' %}">
+                <span>Vendedores/Compradores</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'auth:manager_list' %}">
+                <span>Gerentes</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'reports:create_report' %}">
+                <span>Relatórios</span>
+            </a>
+        </li>
+    {% endif %}
+    {% if request.user|has_group:"seller-buyer" %} 
+        <li>
+            <a href="{% url 'theme:home' %}">
+                <span>Leilões</span>
+            </a>
+        </li>    
+        <li>
+            <a href="{% url 'theme:product_list' %}">
+                <span>Meus Produtos</span>
+            </a>
+        </li> 
+        <li>
+            <a href="{% url 'batches:batch_list' %}">
+                <span>Meus Lotes</span>
+            </a>
+        </li> 
+        <li>
+            <a href="{% url 'auctions:bid_list' %}">
+                <span>Meus Lances</span>
+            </a>
+        </li>
+    {% endif %}
+{% endblock nav_links %}
