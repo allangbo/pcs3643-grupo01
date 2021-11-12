@@ -19,7 +19,7 @@ class AuctionForm(ModelForm):
         now = timezone.now()
         start_date = self.cleaned_data.get('start_date')
         end_date = self.cleaned_data.get('end_date')
-        if start_date > end_date:
+        if start_date >= end_date:
             raise ValidationError(
                 'A data de fim deve ser depois da data de início',
             )
