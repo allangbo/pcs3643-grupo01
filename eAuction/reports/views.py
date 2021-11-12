@@ -10,7 +10,7 @@ class ReportForm(ModelForm):
         fields = ['type', 'start_date', 'end_date']
 
 @login_required(login_url='/auth/login/')
-@group_required('admin', 'seller-buyer')
+@group_required('admin', 'auctioneer')
 def create_report(request):
     form = ReportForm(request.POST or None)
     if form.is_valid():

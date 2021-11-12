@@ -1,9 +1,11 @@
+from django.core.exceptions import ValidationError
 from django.shortcuts import redirect, render, get_object_or_404
 from django.forms import ModelForm
 from django import forms
 from django.contrib.auth.decorators import login_required
 from theme.templatetags.auth_extras import group_required
 from datetime import datetime
+from django.utils import timezone
 
 from .models import Auction, Bid
 
@@ -12,6 +14,20 @@ class AuctionForm(ModelForm):
         model = Auction
         fields = ['start_date', 'end_date', 'batch', 'min_value', 
                     'min_bid_increase_value', 'register_fee', 'register_fee_paid']
+
+    def clean(self):
+        now = timezone.now()
+        start_date = self.cleaned_data.get('start_date')
+        end_date = self.cleaned_data.get('end_date')
+        if start_date > end_date:
+            raise ValidationError(
+                'A data de fim deve ser depois da data de início',
+            )
+        if now > end_date:
+            raise ValidationError(
+                'A data e horário de fim não devem ser antes de agora',
+            )
+        return self.cleaned_data
 
 def is_bid_valid(bid_value, auction: Auction):
         if auction.end_date < datetime.today().date():

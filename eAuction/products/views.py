@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 class ProductForm(ModelForm):
     class Meta:
         model = Product
-        fields = ['name', 'description']
+        fields = ['name', 'description', 'picture']
 
 @login_required(login_url='/auth/login/')
 @group_required('admin', 'auctioneer', 'seller-buyer')
