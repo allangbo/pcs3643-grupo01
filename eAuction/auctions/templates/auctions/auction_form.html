@@ -1,4 +1,12 @@
+{% extends 'theme/base.html' %}
+{% load auth_extras %}
+
+{% block title %} Leiloar {% endblock %}
+{% block content %}
+
 <form method="post">{% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Salvar">
 </form>
+
+{% endblock %}
