@@ -95,7 +95,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', 'NAME': 'dbleilao',
         'USER': 'root',
-        'PASSWORD': 'admin',
+        'PASSWORD': 'Tati159951+',
         'HOST': 'localhost', 'PORT': '3306',
     }
 }
