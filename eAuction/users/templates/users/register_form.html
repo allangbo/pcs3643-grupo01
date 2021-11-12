@@ -1,4 +1,14 @@
+{% extends 'theme/base.html' %}
+{% load auth_extras %}
+
+{% block title %} Adicionar Usuário {% endblock %}
+{% block content %}
+
 <form method="post">{% csrf_token %}
+    <div class="card-body form-group">
     {{ form.as_p }}
+    </div>
     <input type="submit" value="Salvar">
 </form>
+
+{% endblock %}
