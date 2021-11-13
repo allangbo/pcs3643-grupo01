@@ -28,6 +28,7 @@ def batch_create(request):
         fs = form.save(commit=False)
         fs.seller = request.user
         fs.save()
+        form.save_m2m()
         return redirect('batches:batch_list')
 
     return render(request, 'batches/batch_form.html', {'form': form})

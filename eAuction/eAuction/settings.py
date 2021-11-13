@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -30,8 +31,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
-    
+INSTALLED_APPS = [    
     'theme.apps.ThemeConfig',
     'products.apps.ProductsConfig',
     'users.apps.UsersConfig',
@@ -45,8 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'adminlte3',
-    # Optional: Django admin theme (must be before django.contrib.admin)
     'adminlte3_theme',
+    'crispy_forms'
     
 ]
 
@@ -95,7 +95,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', 'NAME': 'dbleilao',
         'USER': 'root',
-        'PASSWORD': 'R2D2&C3Po',
+        'PASSWORD': 'admin',
         'HOST': 'localhost', 'PORT': '3306',
     }
 }
@@ -150,3 +150,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/auth/login'
 LOGOUT_REDIRECT_URL = '/auth/login'
+
+
+MEDIA_ROOT= os.path.join(BASE_DIR, 'media/')
+MEDIA_URL= "/media/"
+
+#Crispy forms
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

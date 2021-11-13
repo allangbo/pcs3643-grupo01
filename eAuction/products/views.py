@@ -22,7 +22,7 @@ def product_list(request):
 @login_required(login_url='/auth/login/')
 @group_required('admin', 'seller-buyer')
 def product_create(request):
-    form = ProductForm(request.POST or None)
+    form = ProductForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         fs = form.save(commit=False)
         fs.seller = request.user
@@ -34,7 +34,7 @@ def product_create(request):
 @group_required('admin', 'seller-buyer')
 def product_update(request, pk):
     product = get_object_or_404(Product, pk=pk)
-    form = ProductForm(request.POST or None, instance=product)
+    form = ProductForm(request.POST or None, request.FILES or None, instance=product)
     if form.is_valid():
         form.save()
         return redirect('products:product_list')

@@ -48,3 +48,4 @@ function countDown(end_date, bid_countdown, bid_button) {
     }
     }, 1000);
 }
+

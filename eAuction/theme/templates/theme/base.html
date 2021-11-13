@@ -4,5 +4,16 @@
 
 {% block extra_head %}
     <link rel="stylesheet" type="text/css" href="{% static 'theme/css/style.css' %}">
-    <script src="{% static 'theme/js/script.js' %}"></script>
+    <script src="{% static 'theme/js/script.js' %}"></script>    
 {% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            {% block base-card-header %}{% endblock base-card-header %}
+        </div>
+        <div class="card-body">
+            {% block base-card-body %}{% endblock base-card-body %}
+        </div>
+    </div>
+{% endblock content %}
