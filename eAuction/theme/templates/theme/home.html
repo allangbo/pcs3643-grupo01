@@ -2,13 +2,15 @@
 {% load auth_extras %}
 
 {% block title %} Home {% endblock %}
-{% block content %}
 
-{% load static %}
 
+{% block base-card-header %}
 <h2 class="center-text">Sistema Leilão</h2>
+{% endblock base-card-header %}
 
-<table>
+{% block base-card-body %}
+
+<table class="table table-bordered">
     <thead>
         <tr>      
             <th>Lote</th>      
@@ -55,7 +57,7 @@
                     {% if user.is_authenticated %}
                         <td>                            
                             {% if request.user|has_group:"seller-buyer" or request.user.is_superuser %} 
-                            <button id="bid_button" onclick="window.location.href='{%url 'auctions:bid_new' auction.id %}'">Dar Lance</button>
+                            <button class="btn btn-primary mb-2 float-right" id="bid_button" onclick="window.location.href='{%url 'auctions:bid_new' auction.id %}'">Dar Lance</button>
                             {% endif %}     
                         </td>  
                     {% endif %} 
@@ -81,4 +83,4 @@
     
 </table>
 
-{% endblock content %}
+{% endblock base-card-body %}

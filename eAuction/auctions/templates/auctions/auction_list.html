@@ -2,16 +2,15 @@
 {% load auth_extras %}
 
 {% block title %} Leilões {% endblock %}
-{% block content %}
 
+{% block base-card-header %}
 <h2 class="center-text">Leilões</h2>
+{% endblock base-card-header %}
 
+{% block base-card-body %}
+    <button class="btn btn-primary mb-2 float-right" onclick="window.location.href='{%url 'auctions:auction_new' %}'">Novo Leilão</button>
 
-<div class="add-button">
-    <button onclick="window.location.href='{%url 'auctions:auction_new' %}'">Novo Leilão</button>
-</div>
-
-<table>
+<table class="table table-bordered">
     <thead>
         <tr>            
             <th>Data Início</th>
@@ -66,8 +65,8 @@
                         {{ auction.min_bid_increase_value }}
                     </td> 
                     <td>
-                        <button onclick="confirmDelete('{%url 'auctions:auction_delete' auction.id %}')">Deletar</button>
-                        <button onclick="window.location.href='{%url 'auctions:auction_edit' auction.id %}'">Editar</button>    
+                        <button  class="btn btn-danger mb-2 " onclick="confirmDelete('{%url 'auctions:auction_delete' auction.id %}')">Deletar</button>
+                        <button class="btn btn-success mb-2 " onclick="window.location.href='{%url 'auctions:auction_edit' auction.id %}'">Editar</button>    
                     </td>   
                 </tr>    
             {% endfor %}  
@@ -79,5 +78,4 @@
     </tbody>
     
 </table>
-
-{% endblock content %}
+{% endblock base-card-body %}

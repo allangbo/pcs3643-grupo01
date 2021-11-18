@@ -3,11 +3,12 @@
 {% load crispy_forms_tags %}
 
 {% block title %} Leiloar {% endblock %}
-{% block content %}
 
-<form method="post">{% csrf_token %}
+{% block base-card-header %}<h2>Leilão</h2>{% endblock base-card-header %}
+
+{% block base-card-body %}
+<form class="col-6" method="post">{% csrf_token %}
     {{ form|crispy }}
-    <input type="submit" value="Salvar">
+    <input class="btn btn-primary" type="submit" value="Salvar">
 </form>
-
-{% endblock %}
+{% endblock base-card-body %}

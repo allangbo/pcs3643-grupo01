@@ -1,12 +1,15 @@
 {% extends 'theme/base.html' %}
 {% load auth_extras %}
+{% load crispy_forms_tags %}
+
 
 {% block title %} Gerar Relatório {% endblock %}
-{% block content %}
 
-<form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Gerar relatório">
+{% block base-card-header %}<h2>Relatório</h2>{% endblock base-card-header %}
+
+{% block base-card-body %}
+<form class="col-6" method="post">{% csrf_token %}
+    {{ form|crispy }}
+    <input class="btn btn-primary" type="submit" value="Gerar relatório">
 </form>
-
-{% endblock %}
+{% endblock base-card-body %}

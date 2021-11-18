@@ -2,16 +2,16 @@
 {% load auth_extras %}
 
 {% block title %} Leiloeiros {% endblock %}
-{% block content %}
-
+`
+{% block base-card-header %}
 <h2 class="center-text">Leiloeiros</h2>
+{% endblock base-card-header %}
 
+{% block base-card-body %}
 {% if request.user|has_group:"admin" or request.user.is_superuser %}
-<div class="add-button">
-    <button onclick="window.location.href='{%url 'auth:auctioneer_new' %}'">Adicionar</button>
-</div>
+    <button class="btn btn-primary mb-2 float-right" onclick="window.location.href='{%url 'auth:auctioneer_new' %}'">Adicionar</button>
 {% endif %}
-<table class="table-list">
+<table class="table table-bordered">
     <thead>
         <tr>
             <th>Username</th>
@@ -37,8 +37,8 @@
                     </td>
                     {% if request.user|has_group:"admin" or request.user.is_superuser %}
                         <td>                            
-                            <button onclick="confirmDeactivate('{%url 'auth:auctioneer_deactivate' auctioneer.id %}')">Desativar</button>
-                            <button onclick="confirmActivate('{%url 'auth:auctioneer_activate' auctioneer.id %}')">Ativar</button>                          
+                            <button class="btn btn-danger" onclick="confirmDeactivate('{%url 'auth:auctioneer_deactivate' auctioneer.id %}')">Desativar</button>
+                            <button  class="btn btn-success" onclick="confirmActivate('{%url 'auth:auctioneer_activate' auctioneer.id %}')">Ativar</button>                          
                         </td> 
                     {% endif %}  
                 </tr>      
@@ -51,7 +51,6 @@
     </tbody>
     
 </table>
-{% endblock content %}
-
+{% endblock base-card-body %}
 
 

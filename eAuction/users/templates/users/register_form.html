@@ -1,14 +1,14 @@
 {% extends 'theme/base.html' %}
 {% load auth_extras %}
+{% load crispy_forms_tags %}
 
 {% block title %} Adicionar Usuário {% endblock %}
-{% block content %}
+{% block base-card-header %}<h2>Registro</h2>{% endblock base-card-header %}
 
-<form method="post">{% csrf_token %}
-    <div class="card-body form-group">
-    {{ form.as_p }}
-    </div>
-    <input type="submit" value="Salvar">
+{% block base-card-body %}
+<form class="col-6" method="post">{% csrf_token %}
+        {{ form|crispy }}
+    <input class="btn btn-primary" type="submit" value="Salvar">
 </form>
 
-{% endblock %}
+{% endblock base-card-body %}

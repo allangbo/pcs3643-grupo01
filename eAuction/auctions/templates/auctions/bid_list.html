@@ -2,11 +2,13 @@
 {% load auth_extras %}
 
 {% block title %} Lances {% endblock %}
-{% block content %}
 
-<h2 class="center-text">Lances</h2>
+{% block base-card-header %}
+    <h2 class="center-text">Lances</h2>
+{% endblock base-card-header %}
 
-<table>
+{% block base-card-body %}
+<table class="table table-bordered">
     <thead>
         <tr>  
             <th>ID</th>    
@@ -55,5 +57,4 @@
     </tbody>
     
 </table>
-
-{% endblock content %}
+{% endblock base-card-body %}
