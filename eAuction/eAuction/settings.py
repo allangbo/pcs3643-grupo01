@@ -46,8 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'adminlte3',
     'adminlte3_theme',
-    'crispy_forms'
-    
+    'crispy_forms',
+    'django.contrib.humanize'
 ]
 
 MIDDLEWARE = [
@@ -95,7 +95,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', 'NAME': 'dbleilao',
         'USER': 'root',
-        'PASSWORD': 'Tati159951+',
+        'PASSWORD': 'admin',
         'HOST': 'localhost', 'PORT': '3306',
     }
 }
@@ -157,3 +157,6 @@ MEDIA_URL= "/media/"
 
 #Crispy forms
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+THOUSAND_SEPARATOR='.',
+USE_THOUSAND_SEPARATOR=True

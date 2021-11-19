@@ -1,14 +1,29 @@
+from django import forms
 from django.shortcuts import redirect, render, get_object_or_404
 from django.forms import ModelForm
 from theme.templatetags.auth_extras import group_required
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError
 
-from .models import Batch
+from .models import Batch, Product
 
 class BatchForm(ModelForm):
     class Meta:
         model = Batch
         fields = ['description', 'value', 'reserve_value', 'products']
+
+    def clean(self):
+        value = self.cleaned_data.get('value')
+        reserve_value = self.cleaned_data.get('reserve_value')
+        if reserve_value <= value:
+            raise ValidationError(
+                'O valor de reserva deve ser maior do que o valor.',
+            )
+        return self.cleaned_data
+
+    def __init__ (self, user, *args, **kwargs):
+        super(BatchForm, self).__init__(*args, **kwargs)
+        self.fields["products"].queryset = Product.objects.filter(seller=user)
         
 @login_required(login_url='/auth/login/')
 @group_required('admin', 'auctioneer', 'seller-buyer')
@@ -22,7 +37,7 @@ def batch_list(request):
 @login_required(login_url='/auth/login/')
 @group_required('admin', 'seller-buyer')
 def batch_create(request):
-    form = BatchForm(request.POST or None)
+    form = BatchForm(request.user, request.POST or None)
 
     if form.is_valid():
         fs = form.save(commit=False)
@@ -37,7 +52,7 @@ def batch_create(request):
 @group_required('admin', 'seller-buyer')
 def batch_update(request, pk):
     batch = get_object_or_404(Batch, pk=pk)
-    form = BatchForm(request.POST or None, instance=batch)
+    form = BatchForm(request.user, request.POST or None, instance=batch)
     
     if form.is_valid():
         form.save()

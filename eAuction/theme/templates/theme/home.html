@@ -1,5 +1,6 @@
 {% extends 'theme/base.html' %}
 {% load auth_extras %}
+{% load humanize %}
 
 {% block title %} Home {% endblock %}
 
@@ -15,10 +16,11 @@
         <tr>      
             <th>Lote</th>      
             <th>Data Início</th>
+            <th>Data Fim</th>
             <th>Tempo Restante</th>
             <th>Lote/Produtos</th>            
             <th>Vencedor Atual</th>
-            <th>Último Lance</th>
+            <th>Lance Atual</th>
             {% if user.is_authenticated %}
                 <th>Ações</th>
             {% endif %} 
@@ -34,6 +36,9 @@
                     </td>
                     <td>
                         {{ auction.start_date }}
+                    </td>
+                    <td>
+                        {{ auction.end_date }}
                     </td>
                     <td>                
                         <div id = "countdown_{{ auction.id }}">
@@ -52,20 +57,24 @@
                        {{ auction.winner|default_if_none:'Sem Lances' }}
                     </td>
                     <td>
-                       {{ auction.winner_bid|default_if_none:'Sem Lances' }}
+                    {% if auction.winner_bid == Null %}
+                        R$ {{ auction.batch.value|add:auction.min_bid_increase_value|floatformat:2|intcomma }}
+                    {% else %}                       
+                        {{ auction.winner_bid }}
+                    {% endif %}
                     </td>
                     {% if user.is_authenticated %}
                         <td>                            
                             {% if request.user|has_group:"seller-buyer" or request.user.is_superuser %} 
-                            <button class="btn btn-primary mb-2 float-right" id="bid_button" onclick="window.location.href='{%url 'auctions:bid_new' auction.id %}'">Dar Lance</button>
+                            <button class="btn btn-primary mb-2 float-right" id="bid_button_{{ auction.id }}" onclick="window.location.href='{%url 'auctions:bid_new' auction.id %}'">Dar Lance</button>
                             {% endif %}     
                         </td>  
                     {% endif %} 
                 </tr>    
             <script>
                 var bid_countdown = document.getElementById("countdown_" + {{ auction.id }})
-                var bid_button = document.getElementById("bid_button")
-                var expirado = countDown(new Date('{{ auction.end_date.isoformat }}'), bid_countdown, bid_button);
+                var bid_button = document.getElementById("bid_button_" + {{ auction.id }})
+                var expirado = countDown(new Date('{{ auction.start_date.isoformat }}'), new Date('{{ auction.end_date.isoformat }}'), bid_countdown, bid_button);
             </script>
             {% endfor %}  
         {% else %}
