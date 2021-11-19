@@ -13,7 +13,7 @@ class AuctionForm(ModelForm):
     class Meta:
         model = Auction
         fields = ['start_date', 'end_date', 'batch', 'min_value', 
-                    'min_bid_increase_value', 'register_fee', 'register_fee_paid']
+                    'min_bid_increase_value', 'register_fee', 'register_fee_paid', 'buy_fee', 'buy_fee_paid']
 
     def clean(self):
         now = timezone.now()
@@ -23,14 +23,18 @@ class AuctionForm(ModelForm):
             raise ValidationError(
                 'A data de fim deve ser depois da data de início',
             )
-        if now > end_date:
+        if now > end_date and self.creating:
             raise ValidationError(
                 'A data e horário de fim não devem ser antes de agora',
             )
         return self.cleaned_data
 
+    def __init__(self, creating, *args, **kwargs):
+        self.creating = creating
+        super(AuctionForm, self).__init__(*args, **kwargs)
+
 def is_bid_valid(bid_value, auction: Auction):
-        if auction.end_date < datetime.today().date():
+        if auction.end_date < timezone.now():
             return False
         if not auction.winner:
             return bid_value >= auction.min_value
@@ -64,7 +68,7 @@ def auction_list(request):
 @login_required(login_url='/auth/login/')
 @group_required('admin', 'auctioneer')
 def auction_create(request):
-    form = AuctionForm(request.POST or None)
+    form = AuctionForm(True, request.POST or None)
 
     if form.is_valid():
         fs = form.save(commit=False)
@@ -78,7 +82,7 @@ def auction_create(request):
 @group_required('admin', 'auctioneer')
 def auction_update(request, pk):
     auction = get_object_or_404(Auction, pk=pk)
-    form = AuctionForm(request.POST or None, instance=auction)
+    form = AuctionForm(False, request.POST or None, instance=auction)
     
     if form.is_valid():
         form.save()
@@ -102,7 +106,7 @@ def bid_create(request, auction_id):
         fs = form.save(commit=False)
         fs.buyer = request.user
         fs.auction = auction
-        fs.datetime = datetime.now()
+        fs.datetime = timezone.now()
         fs.save()
 
         auction.winner = request.user
