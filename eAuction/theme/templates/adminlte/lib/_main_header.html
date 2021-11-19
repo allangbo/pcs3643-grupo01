@@ -4,4 +4,11 @@
 
 {% block nav_bar_center %} {% endblock %}
 
-{% block nav_custom_menu %} <a href="{% url 'auth:logout' %}">Logout</a> {% endblock %}
+
+{% block nav_custom_menu %}
+{% if request.user.is_authenticated %}
+    <a href="{% url 'auth:logout' %}">Logout</a> 
+{% else %}
+    <a href="{% url 'auth:login' %}">Login</a>
+{% endif %}
+{% endblock %}

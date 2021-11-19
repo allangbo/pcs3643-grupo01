@@ -6,8 +6,9 @@ from django.contrib.auth.decorators import login_required
 from theme.templatetags.auth_extras import group_required
 from datetime import datetime
 from django.utils import timezone
+from django.db.models import Q
 
-from .models import Auction, Bid
+from .models import Auction, Bid, Batch
 
 class AuctionForm(ModelForm):   
     class Meta:
@@ -32,6 +33,8 @@ class AuctionForm(ModelForm):
     def __init__(self, creating, *args, **kwargs):
         self.creating = creating
         super(AuctionForm, self).__init__(*args, **kwargs)
+        self.fields["batch"].queryset = Batch.objects.filter(Q(auction__id__isnull=True) | Q(auction__id=self.instance.pk))
+
 
 def is_bid_valid(bid_value, auction: Auction):
         if auction.end_date < timezone.now():

@@ -1,0 +1,15 @@
+{% extends 'adminlte/lib/_main_footer.html' %}
+{% load auth_extras %}
+
+<footer class="main-footer">
+        <div class="float-right d-none d-sm-block">
+        {% block footer_right %}
+            <b>Version</b> {% block version %}0.1{% endblock %}
+        {% endblock %}
+    </div>
+
+    {% block footer_left %}
+    {% block legal %}PCS3643 - Laboratório de Engenharia de Software (Allan/Marcos/Andrei - Grupo 05)
+    {% endblock %}
+    {% endblock %}
+</footer>
