@@ -23,7 +23,10 @@ class BatchForm(ModelForm):
 
     def __init__ (self, user, *args, **kwargs):
         super(BatchForm, self).__init__(*args, **kwargs)
-        self.fields["products"].queryset = Product.objects.filter(seller=user)
+        if user.groups.filter(name__in=['admin', 'auctioneer']) or user.is_superuser:
+            self.fields["products"].queryset = Product.objects.all()
+        else:
+            self.fields["products"].queryset = Product.objects.filter(seller=user)
         
 @login_required(login_url='/auth/login/')
 @group_required('admin', 'auctioneer', 'seller-buyer')

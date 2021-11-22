@@ -1,12 +1,12 @@
 {% extends 'theme/base.html' %}
-{% load auth_extras %}
+{% load crispy_forms_tags %}
 
 {% block title %} Dar Lance {% endblock %}
 {% block content %}
 
 <form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Salvar">
+    {{ form|crispy }}
+    <input class="btn btn-primary" type="submit" value="Salvar">
 </form>
 
 

@@ -4,7 +4,6 @@ from django.forms import ModelForm
 from django import forms
 from django.contrib.auth.decorators import login_required
 from theme.templatetags.auth_extras import group_required
-from datetime import datetime
 from django.utils import timezone
 from django.db.models import Q
 
@@ -40,7 +39,7 @@ def is_bid_valid(bid_value, auction: Auction):
         if auction.end_date < timezone.now():
             return False
         if not auction.winner:
-            return bid_value >= auction.min_value
+            return bid_value >= auction.min_value + auction.min_bid_increase_value
         else:
             if auction.winner_bid and auction.min_bid_increase_value:
                 return bid_value >= auction.winner_bid + auction.min_bid_increase_value
@@ -66,7 +65,8 @@ class BidForm(ModelForm):
 @group_required('admin', 'auctioneer')
 def auction_list(request):
     auction_list = Auction.objects.order_by('id')
-    return render(request, 'auctions/auction_list.html', {'auction_list': auction_list})
+    now = timezone.now()
+    return render(request, 'auctions/auction_list.html', {'auction_list': auction_list, 'now': now})
 
 @login_required(login_url='/auth/login/')
 @group_required('admin', 'auctioneer')
@@ -76,6 +76,7 @@ def auction_create(request):
     if form.is_valid():
         fs = form.save(commit=False)
         fs.auctioneer = request.user
+        fs.winner_bid = fs.batch.value
         fs.save()
         return redirect('auctions:auction_list')
 
@@ -91,6 +92,14 @@ def auction_update(request, pk):
         form.save()
         return redirect('auctions:auction_list')
     return render(request, 'auctions/auction_form.html', {'form':form})
+
+@login_required(login_url='/auth/login/')
+@group_required('admin', 'auctioneer')
+def auction_finish(request, pk):
+    auction = get_object_or_404(Auction, pk=pk)
+    auction.end_date = timezone.now()
+    auction.save()
+    return redirect('auctions:auction_list')
 
 @login_required(login_url='/auth/login/')
 @group_required('admin', 'auctioneer')

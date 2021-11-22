@@ -12,7 +12,7 @@ from batches.models import Batch
 class Auction(models.Model):
     start_date = models.DateTimeField("Data de início")
     end_date = models.DateTimeField("Data de fim")
-    batch = models.OneToOneField(Batch, on_delete=models.CASCADE)    
+    batch = models.OneToOneField(Batch, verbose_name="Lote", on_delete=models.CASCADE)    
     auctioneer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='auctioned_by')
     winner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='won_by', null=True)
     winner_bid = models.DecimalField("Lance Vencedor", decimal_places=2, max_digits=15, null=True)

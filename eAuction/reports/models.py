@@ -62,13 +62,14 @@ class Report(models.Model):
                 if i.register_fee_paid:
                     total_profit_sellers += i.register_fee * i.batch.value
                 if i.buy_fee_paid:
-                    total_profit_buyers += i.buy_fee
+                    winner_bid = i.winner_bid if not i.winner_bid is None else 0
+                    total_profit_buyers += i.buy_fee * winner_bid
 
             profit = p.beginText()
             profit.setFont('Helvetica', 12)
             profit.setCharSpace(1)
             profit.setTextOrigin(0.3*inch, -1.5*inch)
-            profit.textLines("O lucro total provieniente de taxas pagas por vendedores foi R$ " + str(total_profit_sellers) + "\n O lucro total provieniente de taxas pagas por compradores foi R$ " + str(total_profit_buyers))
+            profit.textLines("O lucro total provieniente de taxas pagas por vendedores foi R$ " + "{:.2f}".format(total_profit_sellers) + "\n O lucro total provieniente de taxas pagas por compradores foi R$ " + "{:.2f}".format(total_profit_buyers))
             p.drawText(profit)
             # data = [['00', '01', '02', '03', '04'],
             # ['10', '11', '12', '13', '14'],
@@ -113,7 +114,7 @@ class Report(models.Model):
             performance.setFont('Helvetica', 13)
             performance.setTextOrigin(0.3*inch, -1.5*inch)
             performance.setCharSpace(1)
-            performance.textLine("Foram realizados " + str(auctions_quantity) + " leilões no período")
+            performance.textLine("Foram realizados " + "{:.0f}".format(auctions_quantity) + " leilões no período")
             p.drawText(performance)
 
         p.showPage()

@@ -15,6 +15,7 @@
         <tr>            
             <th>Data Início</th>
             <th>Data Fim</th>
+            <th>Estado</th>
             <th>Lote/Produtos</th>
             <th>Valor Lote</th>
             <th>Valor Reserva Lote</th>
@@ -35,6 +36,15 @@
                     </td>
                     <td>
                         {{ auction.end_date }}
+                    </td>
+                    <td>
+                        {% if auction.end_date > now and auction.start_date < now %}
+                            Ocorrendo <br/>
+                        {% elif auction.start_date >= now %}
+                            Não iniciado
+                        {% else %}
+                            Finalizado
+                        {% endif %}
                     </td>
                     <td>
                         {% for p in auction.batch.products.all %}
@@ -67,6 +77,7 @@
                     <td>
                         <button  class="btn btn-danger mb-2 " onclick="confirmDelete('{%url 'auctions:auction_delete' auction.id %}')">Deletar</button>
                         <button class="btn btn-success mb-2 " onclick="window.location.href='{%url 'auctions:auction_edit' auction.id %}'">Editar</button>    
+                        <button class="btn btn-warning mb-2 " onclick="window.location.href='{%url 'auctions:auction_finish' auction.id %}'">Finalizar</button>    
                     </td>   
                 </tr>    
             {% endfor %}  
