@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from theme.templatetags.auth_extras import group_required
 from django.utils import timezone
 from django.db.models import Q
+from decimal import Decimal
 
 from .models import Auction, Bid, Batch
 
@@ -13,7 +14,7 @@ class AuctionForm(ModelForm):
     class Meta:
         model = Auction
         fields = ['start_date', 'end_date', 'batch', 'min_value', 
-                    'min_bid_increase_value', 'register_fee', 'register_fee_paid', 'buy_fee', 'buy_fee_paid']
+                    'min_bid_increase_value', 'register_fee_paid', 'buy_fee_paid']
 
     def clean(self):
         now = timezone.now()
@@ -27,6 +28,7 @@ class AuctionForm(ModelForm):
             raise ValidationError(
                 'A data e horário de fim não devem ser antes de agora',
             )
+    
         return self.cleaned_data
 
     def __init__(self, creating, *args, **kwargs):
@@ -45,11 +47,31 @@ def is_bid_valid(bid_value, auction: Auction):
                 return bid_value >= auction.winner_bid + auction.min_bid_increase_value
             return True
 
+def calculate_register_fee(batch: Batch):
+        if batch.reserve_value <= 1000:
+            return batch.reserve_value * Decimal(0.01)
+        elif batch.reserve_value > 1000 and batch.reserve_value <= 10000:
+            return batch.reserve_value * Decimal(0.02)
+        elif batch.reserve_value > 10000 and batch.reserve_value <= 50000:
+            return batch.reserve_value * Decimal(0.03)
+        else:
+            return batch.reserve_value * Decimal(0.04)
+
+def calculate_buy_fee(batch: Batch, bid_value: float):
+        if batch.reserve_value <= 1000:
+            return bid_value * Decimal(0.03)
+        elif batch.reserve_value > 1000 and batch.reserve_value <= 10000:
+            return bid_value * Decimal(0.04)
+        elif batch.reserve_value > 10000 and batch.reserve_value <= 50000:
+            return bid_value * Decimal(0.05)
+        else:
+            return bid_value * Decimal(0.06)
+
 class BidForm(ModelForm):      
     def clean_value(self):
         data = self.cleaned_data.get('value')
         if not is_bid_valid(data, self.auction):
-            raise forms.ValidationError('Bid value is not valid.')
+            raise forms.ValidationError('O valor do lance é inválido.')
 
         return data
 
@@ -65,6 +87,8 @@ class BidForm(ModelForm):
 @group_required('admin', 'auctioneer')
 def auction_list(request):
     auction_list = Auction.objects.order_by('id')
+    for auction in auction_list:
+        auction.bids_count = Bid.objects.filter(auction__id__exact=auction.id).count()
     now = timezone.now()
     return render(request, 'auctions/auction_list.html', {'auction_list': auction_list, 'now': now})
 
@@ -76,7 +100,8 @@ def auction_create(request):
     if form.is_valid():
         fs = form.save(commit=False)
         fs.auctioneer = request.user
-        fs.winner_bid = fs.batch.value
+        fs.winner_bid = fs.min_value        
+        fs.register_fee = calculate_register_fee(Batch.objects.get(pk=fs.batch.pk))
         fs.save()
         return redirect('auctions:auction_list')
 
@@ -124,6 +149,7 @@ def bid_create(request, auction_id):
         auction.winner = request.user
         auction.winner_bid = fs.value
         auction.winner_bid_id = fs.id
+        auction.buy_fee = calculate_buy_fee(Batch.objects.get(pk=auction.batch.id), fs.value)
         auction.save()
         return redirect('theme:home')
     return render(request, 'auctions/bid_form.html', {'form': form})

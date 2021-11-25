@@ -1,5 +1,6 @@
 {% extends 'theme/base.html' %}
 {% load auth_extras %}
+{% load humanize %}
 
 {% block title %} Leilões {% endblock %}
 
@@ -10,20 +11,25 @@
 {% block base-card-body %}
     <button class="btn btn-primary mb-2 float-right" onclick="window.location.href='{%url 'auctions:auction_new' %}'">Novo Leilão</button>
 
-<table class="table table-bordered">
+<table class="table table-bordered" style="font-size: 12px">
     <thead>
         <tr>            
             <th>Data Início</th>
             <th>Data Fim</th>
             <th>Estado</th>
-            <th>Lote/Produtos</th>
-            <th>Valor Lote</th>
+            <th>Lote</th>
+            <th>Produtos</th>
             <th>Valor Reserva Lote</th>
             <th>Vendedor</th>
             <th>Valor Mínimo</th>
-            <th>Taxa Registro</th>
-            <th>Taxa Registro Paga</th>
-            <th>Delta</th>
+            <th>Qtd Lances</th>
+            <th>Vencedor Atual</th>
+            <th>Lance Atual</th>
+            <th>Taxa de Registro</th>
+            <th>Taxa de Registro Paga</th>
+            <th>Taxa de Compra</th>
+            <th>Taxa de Compra Paga</th>
+            <th>Delta Mínimo</th>
             <th>Ações</th>
         </tr>
     </thead>    
@@ -42,9 +48,14 @@
                             Ocorrendo <br/>
                         {% elif auction.start_date >= now %}
                             Não iniciado
+                        {% elif auction.end_date < now and auction.winner_bid < auction.batch.reserve_value %}
+                            Não atingiu valor de reserva
                         {% else %}
-                            Finalizado
+                            Arrematado
                         {% endif %}
+                    </td>
+                    <td>
+                        {{ auction.batch.id }}
                     </td>
                     <td>
                         {% for p in auction.batch.products.all %}
@@ -54,30 +65,44 @@
                         {% endfor %}
                     </td>
                     <td>
-                        {{ auction.batch.value }}
-                    </td>
-                    <td>
-                        {{ auction.batch.reserve_value }}
+                        R$ {{ auction.batch.reserve_value|floatformat:2|intcomma }}
                     </td>
                     <td>
                         {{ auction.batch.seller }}
                     </td>
                     <td>
-                        {{ auction.min_value }}
+                        R$ {{ auction.min_value|floatformat:2|intcomma }}
                     </td>
                     <td>
-                        {{ auction.register_fee }}
+                        {{ auction.bids_count }}
+                    </td>
+                    <td>
+                       {{ auction.winner|default_if_none:'Sem Lances' }}
+                    </td>
+                    <td>
+                        {{ auction.winner_bid }}
+                    </td>
+                    <td>
+                        R$ {{ auction.register_fee|floatformat:2|intcomma  }}
                     </td>
                     <td>
                         {{ auction.register_fee_paid }}
                     </td>
                     <td>
-                        {{ auction.min_bid_increase_value }}
+                        R$ {{ auction.buy_fee|default_if_none:''|floatformat:2|intcomma  }}
+                    </td>
+                    <td>
+                        {{ auction.buy_fee_paid }}
+                    </td>
+                    <td>
+                        R$ {{ auction.min_bid_increase_value|floatformat:2|intcomma  }}
                     </td> 
                     <td>
-                        <button  class="btn btn-danger mb-2 " onclick="confirmDelete('{%url 'auctions:auction_delete' auction.id %}')">Deletar</button>
-                        <button class="btn btn-success mb-2 " onclick="window.location.href='{%url 'auctions:auction_edit' auction.id %}'">Editar</button>    
-                        <button class="btn btn-warning mb-2 " onclick="window.location.href='{%url 'auctions:auction_finish' auction.id %}'">Finalizar</button>    
+                        <button  class="btn btn-danger mb-2 btn-sm" onclick="confirmDelete('{%url 'auctions:auction_delete' auction.id %}')">Deletar</button>
+                        <button class="btn btn-success mb-2 btn-sm" onclick="window.location.href='{%url 'auctions:auction_edit' auction.id %}'">Editar</button>  
+                        <!--
+                        <button class="btn btn-warning mb-2 btn-sm" onclick="window.location.href='{%url 'auctions:auction_finish' auction.id %}'">Finalizar</button>    
+                        -->  
                     </td>   
                 </tr>    
             {% endfor %}  

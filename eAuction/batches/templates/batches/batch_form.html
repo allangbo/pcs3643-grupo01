@@ -9,6 +9,7 @@
     <form class="col-6" method="post">
     {% csrf_token %}
         {{ form|crispy }}
+        <a href="{% url 'batches:batch_list' %}" class="btn btn-light">Cancelar</a>
         <input class="btn btn-primary" type="submit" value="Salvar">
     </form>
 {% endblock base-card-body %}

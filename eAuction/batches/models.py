@@ -8,10 +8,9 @@ from products.models import Product
 
 class Batch(models.Model):
     description = models.CharField("Descrição", max_length=500, null=True, blank=True)
-    value = models.DecimalField("Valor", decimal_places=2, max_digits=15)
     reserve_value = models.DecimalField("Valor de Reserva", decimal_places=2, max_digits=15)
-    seller = models.ForeignKey(User, on_delete=models.CASCADE)
-    products = models.ManyToManyField(Product)
+    seller = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Vendedor")
+    products = models.ManyToManyField(Product, verbose_name="Produtos")
     
     def __str__(self):
         return self.description

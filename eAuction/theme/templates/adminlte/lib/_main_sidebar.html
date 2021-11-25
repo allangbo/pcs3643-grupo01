@@ -9,7 +9,7 @@
     {% if request.user|has_group:"admin" or request.user|has_group:"auctioneer" or request.user.is_superuser %}    
         <li class="nav-item">
             <a href="{% url 'theme:home' %}" class="nav-link">
-                <i class="nav-icon fas fa-home"></i><span>Home</span>
+                <i class="nav-icon fas fa-home"></i><span>Sistema Leilão</span>
             </a>
         </li>
         <li class="nav-item">

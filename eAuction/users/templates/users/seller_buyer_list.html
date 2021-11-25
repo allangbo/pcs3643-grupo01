@@ -13,7 +13,7 @@
     <button class="btn btn-primary mb-2 float-right" onclick="window.location.href='{%url 'auth:seller_buyer_new' %}'">Adicionar</button>
 
 {% endif %}
-<table class="table table-bordered">
+<table class="table table-bordered" style="font-size: 12px">
     <thead>
         <tr>
             <th>Username</th>
@@ -39,8 +39,8 @@
                     </td>
                     {% if request.user|has_group:"admin" or request.user.is_superuser %}
                         <td>                            
-                            <button class="btn btn-danger" onclick="confirmDeactivate('{%url 'auth:seller_buyer_deactivate' seller_buyer.id %}')">Desativar</button>  
-                            <button class="btn btn-success" onclick="confirmActivate('{%url 'auth:seller_buyer_activate' seller_buyer.id %}')">Ativar</button>                        
+                            <button class="btn btn-danger btn-sm" onclick="confirmDeactivate('{%url 'auth:seller_buyer_deactivate' seller_buyer.id %}')">Desativar</button>  
+                            <button class="btn btn-success btn-sm" onclick="confirmActivate('{%url 'auth:seller_buyer_activate' seller_buyer.id %}')">Ativar</button>                        
                         </td> 
                     {% endif %}  
                 </tr>      

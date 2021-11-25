@@ -14,7 +14,7 @@
     <br/>
         {% if request.user|has_group:"admin" or request.user|has_group:"auctioneer" or request.user.is_superuser %}    
             <div id="menu">
-                <a href="{% url 'theme:home' %}">Home</a>
+                <a href="{% url 'theme:home' %}">Sistema Leilão</a>
                 <a href="{% url 'products:product_list' %}">Produtos</a>
                 <a href="{% url 'batches:batch_list' %}">Lotes</a>
                 <a href="{% url 'auctions:auction_list' %}">Leilões</a>

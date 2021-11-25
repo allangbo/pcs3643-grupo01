@@ -10,16 +10,8 @@ from .models import Batch, Product
 class BatchForm(ModelForm):
     class Meta:
         model = Batch
-        fields = ['description', 'value', 'reserve_value', 'products']
+        fields = ['description', 'reserve_value', 'products']
 
-    def clean(self):
-        value = self.cleaned_data.get('value')
-        reserve_value = self.cleaned_data.get('reserve_value')
-        if reserve_value <= value:
-            raise ValidationError(
-                'O valor de reserva deve ser maior do que o valor.',
-            )
-        return self.cleaned_data
 
     def __init__ (self, user, *args, **kwargs):
         super(BatchForm, self).__init__(*args, **kwargs)

@@ -2,7 +2,7 @@
 {% load auth_extras %}
 {% load humanize %}
 
-{% block title %} Home {% endblock %}
+{% block title %} Sistema Leilão {% endblock %}
 
 
 {% block base-card-header %}
@@ -11,16 +11,19 @@
 
 {% block base-card-body %}
 
-<table class="table table-bordered">
+<table class="table table-bordered" style="font-size: 12px">
     <thead>
         <tr>      
-            <th>Lote</th>      
+            <th>Lote</th>    
+            <th>Produtos</th>    
             <th>Data Início</th>
             <th>Data Fim</th>
             <th>Tempo Restante</th>
-            <th>Lote/Produtos</th>            
+            <th>Estado</th>
+            <th>Qtd Lances</th>                      
             <th>Vencedor Atual</th>
             <th>Lance Atual</th>
+            <th>Taxa de Compra</th>
             {% if user.is_authenticated %}
                 <th>Ações</th>
             {% endif %} 
@@ -35,18 +38,6 @@
                         {{ auction.batch.id }}
                     </td>
                     <td>
-                        {{ auction.start_date }}
-                    </td>
-                    <td>
-                        {{ auction.end_date }}
-                    </td>
-                    <td>                
-                        <div id = "countdown_{{ auction.id }}">
-                        </div>     
-                       
-                       
-                    </td>
-                    <td>
                         {% for p in auction.batch.products.all %}
                             {{ p.id }} - {{ p.name }} - {{ p.description }} <br/>
                         {% empty %}
@@ -54,19 +45,42 @@
                         {% endfor %}
                     </td>
                     <td>
-                       {{ auction.winner|default_if_none:'Sem Lances' }}
+                        {{ auction.start_date }}
                     </td>
                     <td>
-                    {% if auction.winner_bid == Null %}
-                        R$ {{ auction.batch.value|add:auction.min_bid_increase_value|floatformat:2|intcomma }}
-                    {% else %}                       
-                        {{ auction.winner_bid }}
-                    {% endif %}
+                        {{ auction.end_date }}
                     </td>
-                    {% if user.is_authenticated %}
+                    <td>                
+                        <div id = "countdown_{{ auction.id }}">
+                        </div>                
+                    </td>
+                    <td>
+                        {% if auction.end_date > now and auction.start_date < now %}
+                            Ocorrendo <br/>
+                        {% elif auction.start_date >= now %}
+                            Não iniciado
+                        {% elif auction.end_date < now and auction.winner_bid < auction.batch.reserve_value %}
+                            Não atingiu valor
+                        {% else %}
+                            Arrematado
+                        {% endif %}
+                    </td>
+                     <td>
+                        {{ auction.bids_count }}
+                    </td>                    
+                    <td>
+                       {{ auction.winner|default_if_none:'Sem Lances' }}
+                    </td>
+                    <td>                      
+                        {{ auction.winner_bid }}
+                    </td>
+                    <td>                      
+                        {{ auction.buy_fee|default_if_none:'' }}
+                    </td>
+                    {% if user.is_authenticated and auction.end_date > now and auction.start_date < now %}
                         <td>                            
                             {% if request.user|has_group:"seller-buyer" or request.user.is_superuser %} 
-                            <button class="btn btn-primary mb-2 float-right" id="bid_button_{{ auction.id }}" onclick="window.location.href='{%url 'auctions:bid_new' auction.id %}'">Dar Lance</button>
+                            <button class="btn btn-primary mb-2 float-right btn-sm" id="bid_button_{{ auction.id }}" onclick="window.location.href='{%url 'auctions:bid_new' auction.id %}'">Dar Lance</button>
                             {% endif %}     
                         </td>  
                     {% endif %} 
@@ -78,15 +92,9 @@
             </script>
             {% endfor %}  
         {% else %}
-            {% if user.is_authenticated %}
-                <tr>
-                    <td class="center-text" colspan='7'><p>Nenhum leilão disponível.</p></td> 
-                </tr>
-            {% else %} 
-                <tr>
-                    <td class="center-text" colspan='6'><p>Nenhum leilão disponível.</p></td> 
-                </tr>
-            {% endif %} 
+            <tr>
+                <td class="center-text" colspan='100%'><p>Nenhum leilão disponível.</p></td> 
+            </tr>
         {% endif %}
     </tbody>
     

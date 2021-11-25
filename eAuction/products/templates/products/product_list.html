@@ -12,7 +12,7 @@
         <button class="btn btn-primary mb-2 float-right" onclick="window.location.href='{%url 'products:product_new' %}'">Adicionar</button>
     {% endif %}
     
-    <table class="table table-bordered">
+    <table class="table table-bordered" style="font-size: 12px">
         <thead>
             <tr>
                 <th>ID</th>
@@ -42,8 +42,8 @@
                         </td>
                         {% if request.user|has_group:"seller-buyer" or  request.user|has_group:"admin" or request.user.is_superuser %}
                             <td>                            
-                                <button class="btn btn-danger" onclick="confirmDelete('{%url 'products:product_delete' product.id %}')">Deletar</button>
-                                <button class="btn btn-success" onclick="window.location.href='{%url 'products:product_edit' product.id %}'">Editar</button>                            
+                                <button class="btn btn-danger btn-sm" onclick="confirmDelete('{%url 'products:product_delete' product.id %}')">Deletar</button>
+                                <button class="btn btn-success btn-sm" onclick="window.location.href='{%url 'products:product_edit' product.id %}'">Editar</button>                            
                             </td> 
                         {% endif %}  
                     </tr>      

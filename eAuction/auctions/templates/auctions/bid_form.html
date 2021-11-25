@@ -6,6 +6,7 @@
 
 <form method="post">{% csrf_token %}
     {{ form|crispy }}
+    <a href="{% url 'theme:home' %}" class="btn btn-light">Cancelar</a>
     <input class="btn btn-primary" type="submit" value="Salvar">
 </form>
 
