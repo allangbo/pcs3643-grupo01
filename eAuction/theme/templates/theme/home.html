@@ -55,15 +55,7 @@
                         </div>                
                     </td>
                     <td>
-                        {% if auction.end_date > now and auction.start_date < now %}
-                            Ocorrendo <br/>
-                        {% elif auction.start_date >= now %}
-                            Não iniciado
-                        {% elif auction.end_date < now and auction.winner_bid < auction.batch.reserve_value %}
-                            Não atingiu valor
-                        {% else %}
-                            Arrematado
-                        {% endif %}
+                        {{ auction.state }}
                     </td>
                      <td>
                         {{ auction.bids_count }}

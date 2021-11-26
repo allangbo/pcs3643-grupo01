@@ -38,14 +38,17 @@ class AuctionForm(ModelForm):
 
 
 def is_bid_valid(bid_value, auction: Auction):
-        if auction.end_date < timezone.now():
-            return False
-        if not auction.winner:
-            return bid_value >= auction.min_value + auction.min_bid_increase_value
-        else:
-            if auction.winner_bid and auction.min_bid_increase_value:
-                return bid_value >= auction.winner_bid + auction.min_bid_increase_value
-            return True
+    if auction.end_date < timezone.now():
+        return False
+    if not auction.winner:
+        return bid_value >= auction.min_value
+    else:
+        if auction.winner_bid and auction.min_bid_increase_value:
+            return bid_value >= auction.winner_bid + auction.min_bid_increase_value
+        return True
+        
+def is_buyer_valid(buyer, auction: Auction):
+    return buyer != auction.batch.seller
 
 def calculate_register_fee(batch: Batch):
         if batch.reserve_value <= 1000:
@@ -75,8 +78,16 @@ class BidForm(ModelForm):
 
         return data
 
-    def __init__(self, auction, *args, **kwargs):
+    def clean(self):
+        data = self.buyer
+        if not is_buyer_valid(data, self.auction):
+            raise forms.ValidationError('Um vendedor não pode dar lance no próprio lote.')
+        
+        return self.cleaned_data
+
+    def __init__(self, auction, user, *args, **kwargs):
         self.auction = auction
+        self.buyer = user
         super(BidForm, self).__init__(*args, **kwargs)
 
     class Meta:
@@ -88,6 +99,7 @@ class BidForm(ModelForm):
 def auction_list(request):
     auction_list = Auction.objects.order_by('id')
     for auction in auction_list:
+        auction.update_state()
         auction.bids_count = Bid.objects.filter(auction__id__exact=auction.id).count()
     now = timezone.now()
     return render(request, 'auctions/auction_list.html', {'auction_list': auction_list, 'now': now})
@@ -137,7 +149,7 @@ def auction_delete(request, pk):
 @group_required('admin', 'seller-buyer')
 def bid_create(request, auction_id):    
     auction = get_object_or_404(Auction, pk=auction_id)
-    form = BidForm(auction, request.POST or None)
+    form = BidForm(auction, request.user, request.POST or None)
 
     if form.is_valid():        
         fs = form.save(commit=False)

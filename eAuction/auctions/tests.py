@@ -51,7 +51,7 @@ class AuctionModelTest(TestCase):
     def test_min_value_label(self):
         auction = Auction.objects.latest('id')
         field_label = auction._meta.get_field('min_value').verbose_name
-        self.assertEquals(field_label, 'Valor mínimo')
+        self.assertEquals(field_label, 'Valor inicial')
 
     def test_min_bid_increase_value_label(self):
         auction = Auction.objects.latest('id')

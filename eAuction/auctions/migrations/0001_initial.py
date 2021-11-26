@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                 ('end_date', models.DateField(verbose_name='Data de fim')),
                 ('winner_bid', models.DecimalField(decimal_places=2, max_digits=15, null=True, verbose_name='Lance Vencedor')),
                 ('winner_bid_id', models.DecimalField(decimal_places=0, max_digits=30, null=True)),
-                ('min_value', models.DecimalField(decimal_places=2, max_digits=15, verbose_name='Valor mínimo')),
+                ('min_value', models.DecimalField(decimal_places=2, max_digits=15, verbose_name='Valor inicial')),
                 ('min_bid_increase_value', models.DecimalField(decimal_places=2, max_digits=15, verbose_name='Aumento mínimo por lance')),
                 ('register_fee', models.DecimalField(decimal_places=2, max_digits=15, verbose_name='Taxa de Registro')),
                 ('buy_fee', models.DecimalField(decimal_places=2, max_digits=15, null=True, verbose_name='Taxa de Compra')),

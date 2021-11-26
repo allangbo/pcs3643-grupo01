@@ -8,7 +8,7 @@ from reportlab.platypus import Table, TableStyle
 from django.db.models import Q
 import io
 
-from auctions.models import Auction
+from auctions.models import Auction, Bid
 
 class Report(models.Model):
     class ReportType(models.TextChoices):
@@ -33,7 +33,11 @@ class Report(models.Model):
         auctions_in_interval = Auction.objects.filter(
                 Q(end_date__gt=self.start_date) & Q(end_date__lt=self.end_date)
                 )
-        print('== == lista: ' + str(auctions_in_interval))
+        finished_auctions = auctions_in_interval.filter(Q(state__exact=Auction.StateType.FINISHED))
+        invalid_auctions = auctions_in_interval.filter(Q(state__exact=Auction.StateType.INVALID))
+        canceled_auctions = auctions_in_interval.filter(Q(state__exact=Auction.StateType.CANCELED))
+
+        bids_in_interval = list(filter(lambda x: x.auction in list(auctions_in_interval), Bid.objects.all()))
 
         if self.type == 'Faturamento':
             filename = "relatório_de_faturamento.pdf"
@@ -57,13 +61,11 @@ class Report(models.Model):
             # total_profit = sum(auctions_in_interval.values_list('profit', flat=True))
             total_profit_sellers = 0
             total_profit_buyers = 0
-            for i in list(auctions_in_interval):
-                print("== == == dados: " + str(i.register_fee) + ", " + str(i.batch.value) + ", " + str(i.buy_fee))
+            for i in list(finished_auctions):
                 if i.register_fee_paid:
-                    total_profit_sellers += i.register_fee * i.batch.value
-                if i.buy_fee_paid:
-                    winner_bid = i.winner_bid if not i.winner_bid is None else 0
-                    total_profit_buyers += i.buy_fee * winner_bid
+                    total_profit_sellers += i.register_fee
+                if i.buy_fee_paid and i.state == Auction.StateType.FINISHED:
+                    total_profit_buyers += i.buy_fee
 
             profit = p.beginText()
             profit.setFont('Helvetica', 12)
@@ -109,12 +111,24 @@ class Report(models.Model):
             subtitle.textLines("Período: \n " + self.start_date.strftime(date_time_format) + " - " + self.end_date.strftime(date_time_format))
             p.drawText(subtitle)
 
-            auctions_quantity = len(list(auctions_in_interval))
+            auctions_quantity = len(list(finished_auctions))
+            invalid_auctions_quantity = len(list(invalid_auctions))
+            canceled_auctions_quantity = len(list(canceled_auctions))
+            buyers = []
+            auctioneers = []
+            for bid in list(bids_in_interval):
+                buyer = bid.buyer
+                auctioneer = bid.auction.auctioneer
+                if not buyer in buyers:
+                    buyers.append(buyer)
+                if not auctioneer in auctioneers:
+                    auctioneers.append(auctioneer)
+
             performance = p.beginText()
             performance.setFont('Helvetica', 13)
             performance.setTextOrigin(0.3*inch, -1.5*inch)
             performance.setCharSpace(1)
-            performance.textLine("Foram realizados " + "{:.0f}".format(auctions_quantity) + " leilões no período")
+            performance.textLines("Foram realizados " + "{:.0f}".format(auctions_quantity) + " leilões no período\nNos quais " + str(len(buyers)) + " compradores deram lances.\n Em lotes anunciados por " + str(len(auctioneers)) + " vendedores. \n Além disso, " +  str(invalid_auctions_quantity) + " leilões terminaram sem lances acima do valor de reserva.\n " + str(canceled_auctions_quantity) + " leilões foram cancelados por seus vendedores.")
             p.drawText(performance)
 
         p.showPage()

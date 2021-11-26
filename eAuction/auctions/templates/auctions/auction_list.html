@@ -17,11 +17,10 @@
             <th>Data Início</th>
             <th>Data Fim</th>
             <th>Estado</th>
-            <th>Lote</th>
             <th>Produtos</th>
             <th>Valor Reserva Lote</th>
             <th>Vendedor</th>
-            <th>Valor Mínimo</th>
+            <th>Valor inicial</th>
             <th>Qtd Lances</th>
             <th>Vencedor Atual</th>
             <th>Lance Atual</th>
@@ -44,18 +43,7 @@
                         {{ auction.end_date }}
                     </td>
                     <td>
-                        {% if auction.end_date > now and auction.start_date < now %}
-                            Ocorrendo <br/>
-                        {% elif auction.start_date >= now %}
-                            Não iniciado
-                        {% elif auction.end_date < now and auction.winner_bid < auction.batch.reserve_value %}
-                            Não atingiu valor de reserva
-                        {% else %}
-                            Arrematado
-                        {% endif %}
-                    </td>
-                    <td>
-                        {{ auction.batch.id }}
+                        {{ auction.state }}
                     </td>
                     <td>
                         {% for p in auction.batch.products.all %}

@@ -9,5 +9,6 @@ def home(request):
     auction_list = Auction.objects.order_by('id')
     for auction in auction_list:
         auction.bids_count = Bid.objects.filter(auction__id__exact=auction.id).count()
+        auction.update_state()
     now = timezone.now()
     return render(request, 'theme/home.html', {'auction_list': auction_list, 'now': now})
