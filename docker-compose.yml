@@ -1,5 +1,10 @@
 version: '3.7'
 
+metadata:
+  annotations:
+    dev.okteto.com/generate-host: "true"
+  name: hello-world
+
 services: # the different images that will be running as containers
   nginx: # service name
     build: ./nginx # location of the dockerfile that defines the nginx image. The dockerfile will be used to spin up an image during the build stage
