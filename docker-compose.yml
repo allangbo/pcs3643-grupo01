@@ -44,19 +44,7 @@ services: # the different images that will be running as containers
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql   
-    networks:
-      - mysql-compose-network
-
-  adminer:
-    image: adminer
-    ports:
-      - 8080:8080
-    networks:
-      - mysql-compose-network
   
-  networks: 
-  mysql-compose-network:
-    driver: bridge
   
 volumes:
   mysql_data:
