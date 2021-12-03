@@ -27,9 +27,9 @@ services: # the different images that will be running as containers
     #env_file: # file where env variables are stored. Used as best practice so as not to expose secret keys
     #  - .env # name of the env file
     environment:
-      - DJANGO_SUPERUSER_PASSWORD=mypass123
-      - DJANGO_SUPERUSER_USERNAME=test
-      - DJANGO_SUPERUSER_EMAIL=test@gmail.com
+      - DJANGO_SUPERUSER_PASSWORD=admin
+      - DJANGO_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_EMAIL=admin@mail.com
 
     image: microservice_app # name of the image
 
@@ -39,18 +39,30 @@ services: # the different images that will be running as containers
     depends_on: # cannot start if db service is not up and running
       - db
   db: # service name
-    image: postgres:11-alpine # image name of the postgres database. during build, this will be pulled from dockerhub and a container spun up from it
-    volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-      - postgres_data:/var/lib/postgresql/data/
+  
+    image: mysql:5.7 # image name of the postgres database. during build, this will be pulled from dockerhub and a container spun up from it
     environment: # access credentials from the .env file
-      - POSTGRES_PASSWORD=testpassword
-      - POSTGRES_DB=testdb
-      - PGPORT=5432
-      - POSTGRES_USER=testuser
-    restart: "on-failure"
+      MYSQL_ROOT_PASSWORD: "admin"
+      MYSQL_DATABASE: "dbleilao"    
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql   
+    networks:
+      - mysql-compose-network
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+    networks:
+      - mysql-compose-network
+  
+  networks: 
+  mysql-compose-network:
+    driver: bridge
   
 volumes:
-  postgres_data:
+  mysql_data:
   static_volume:
   
