@@ -41,6 +41,7 @@ services: # the different images that will be running as containers
     image: mysql:5.7 # image name of the postgres database. during build, this will be pulled from dockerhub and a container spun up from it
     environment: # access credentials from the .env file
       MYSQL_ROOT_PASSWORD: "admin"
+      MYSQL_ROOT_USER: "root"
       MYSQL_DATABASE: "dbleilao"    
     ports:
       - "3306:3306"

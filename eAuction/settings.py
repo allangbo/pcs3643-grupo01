@@ -96,7 +96,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql', 'NAME': 'dbleilao',
         'USER': 'root',
         'PASSWORD': 'admin',
-        'HOST': 'https://nginx-allangbo.cloud.okteto.net', 'PORT': '3306',
+        'HOST': 'localhost', 'PORT': '3306',
     }
 }
 
