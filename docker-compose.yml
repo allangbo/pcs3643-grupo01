@@ -34,8 +34,8 @@ services: # the different images that will be running as containers
       - '8000' # hardcoded port
     restart: "on-failure"
     depends_on: # cannot start if db service is not up and running
-      - localhost
-  localhost: # service name
+      - db
+  db: # service name
   
     image: mysql:5.7 # image name of the postgres database. during build, this will be pulled from dockerhub and a container spun up from it
     environment: # access credentials from the .env file
