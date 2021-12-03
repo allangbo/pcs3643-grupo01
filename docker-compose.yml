@@ -1,9 +1,18 @@
 version: '3.7'
 
+apiVersion: extensions/v1beta1
+kind: Ingress
 metadata:
+  name: hello-ingress
   annotations:
-    dev.okteto.com/generate-host: "true"
-  name: hello-world
+    dev.okteto.com/generate-host: "domain"
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: hello-world
+          servicePort: 8080
 
 services: # the different images that will be running as containers
   nginx: # service name
