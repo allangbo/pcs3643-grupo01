@@ -61,7 +61,7 @@ class Report(models.Model):
             # total_profit = sum(auctions_in_interval.values_list('profit', flat=True))
             total_profit_sellers = 0
             total_profit_buyers = 0
-            for i in list(finished_auctions):
+            for i in list(auctions_in_interval):
                 if i.register_fee_paid:
                     total_profit_sellers += i.register_fee
                 if i.buy_fee_paid and i.state == Auction.StateType.FINISHED:
@@ -128,7 +128,7 @@ class Report(models.Model):
             performance.setFont('Helvetica', 13)
             performance.setTextOrigin(0.3*inch, -1.5*inch)
             performance.setCharSpace(1)
-            performance.textLines("Foram realizados " + "{:.0f}".format(auctions_quantity) + " leilões no período\nNos quais " + str(len(buyers)) + " compradores deram lances.\n Em lotes anunciados por " + str(len(auctioneers)) + " vendedores. \n Além disso, " +  str(invalid_auctions_quantity) + " leilões terminaram sem lances acima do valor de reserva.\n " + str(canceled_auctions_quantity) + " leilões foram cancelados por seus vendedores.")
+            performance.textLines("Leilões arrematados: " + "{:.0f}".format(auctions_quantity) + "\nCompradores diferentes que deram lance: " + str(len(buyers)) + "\nVendedores que anunciaram lotes: " + str(len(auctioneers)) + "\nLeilões que finalizaram sem lance acima do valor de reserva: " +  str(invalid_auctions_quantity) + "\nLeilões cancelados: " + str(canceled_auctions_quantity))
             p.drawText(performance)
 
         p.showPage()
