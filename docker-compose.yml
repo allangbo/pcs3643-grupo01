@@ -17,6 +17,7 @@ services: # the different images that will be running as containers
                     python manage.py migrate &&
                     mv ./eAuction/urls.py ./eAuction/urls_config.py &&
                     mv ./eAuction/urls_prep.py ./eAuction/urls.py &&
+                    python manage.py createsuperuser &&
                     python manage.py collectstatic &&
                     gunicorn eAuction.wsgi:application --bind 0.0.0.0:8000" # Django commands to run app using gunicorn
     volumes:
@@ -25,9 +26,9 @@ services: # the different images that will be running as containers
     #env_file: # file where env variables are stored. Used as best practice so as not to expose secret keys
     #  - .env # name of the env file
     environment:
-      - DJANGO_SUPERUSER_PASSWORD=teste
-      - DJANGO_SUPERUSER_USERNAME=teste123
-      - DJANGO_SUPERUSER_EMAIL=teste@mail.com
+      - DJANGO_SUPERUSER_PASSWORD=admin
+      - DJANGO_SUPERUSER_USERNAME=admin123
+      - DJANGO_SUPERUSER_EMAIL=admin@mail.com
 
     image: microservice_app # name of the image
 
