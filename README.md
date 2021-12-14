@@ -1,3 +1,9 @@
+O deploy da aplicação foi feito no seguinte link:
+https://nginx-allangbo.cloud.okteto.net/
+Usuário administrador:
+login: admin
+senha: admin123
+
 Para executar o sistema de leilão:
 
 1) Entrar no diretório eAuction: cd eAuction
@@ -25,3 +31,4 @@ O nome do banco configurado é dbleilao, usuario: root, senha: admin
 
 11) Os testes de tela se encontram no diretório Documents/05-11-2021, eles pressupõem que o usuário esteja loggado no sistema. Pode-se logar utilizando as credenciais de superusuário criadas no passo 8.
 (Há três tipos de usuário: comprador/vendedor; leiloeiro e administrador). O usuário administrador é o único que conseguirá realizar todos os testes pois ele tem acesso a todas as funcionalidades)
+
